@@ -12,6 +12,7 @@ var storyController = {
     addPendingStory: addPendingStory,
     getSavedStoriesByUser: getSavedStoriesByUser,
     searchAndFilterProject: searchAndFilterProject,
+    downloadProject: downloadProject,
     test: test
 };
 
@@ -38,6 +39,23 @@ function searchAndFilterProject(req, res) {
     }).catch(function (err) {
         response.status.statusCode = '500';
         response.status.message = 'Failed to search project: ' + err.message;
+        res.status(500).json(response);
+    });
+}
+
+function downloadProject(req, res) {
+    var response = new Response();
+
+    var projectId = req.params.projectId;
+
+    storyService.downloadProject(projectId).then(function (project) {
+        response.data.project = project;
+        response.status.statusCode = '200';
+        response.status.message = 'Project downloaded successfully!!';
+        res.status(200).json(response);
+    }).catch(function (err) {
+        response.status.statusCode = '500';
+        response.status.message = 'Could not download project: ' + err.message;
         res.status(500).json(response);
     });
 }

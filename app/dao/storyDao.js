@@ -20,7 +20,9 @@ const {
 
 var storyDao = {
     getProjects: getProjects,
+    getResults: getResults,
     getSearchedProjects: getSearchedProjects,
+    getProjectByTagName: getProjectByTagName,
     addProject: addProject,
     getProjectById: getProjectById,
     deleteProjectById: deleteProjectById,
@@ -28,13 +30,19 @@ var storyDao = {
     getLikedProject: getLikedProject,
     dislikeProject: dislikeProject,
     shareProject: shareProject,
+    downloadProject: downloadProject,
     getMostLikedProjects: getMostLikedProjects,
     getMostSharedProjects: getMostSharedProjects,
+    getMostDownloadededProjects: getMostDownloadededProjects,
     getProjectByProjectId: getProjectByProjectId
 }
 
 function getProjects(userMid, pageNo, limit) {
     return new Promise(function (resolve, reject) {
+
+        console.log("Offset: ", (parseInt(pageNo, 10) - 1) * parseInt(limit, 10));
+        console.log("Limit: ", parseInt(limit, 10));
+
         Project.findAll({
             attributes: { exclude: ['projectDetails', 'challenges', 'solution', 'benefits', 'executionSummary', 'expertsOfTopic', 'offeringId', 'subVerticalId', 'serviceId', 'accountId', 'verticalId', 'practiceId', 'contractId', 'customerId'] },
             include: [Technology, Tool, Offering, Tag, SubVertical, SubPractice, Account, Vertical, Practice, Contract,
@@ -54,7 +62,7 @@ function getProjects(userMid, pageNo, limit) {
                     required: false
                 }
             ],
-            offset: (pageNo - 1) * limit,
+            offset: (parseInt(pageNo, 10) - 1) * parseInt(limit, 10),
             limit: parseInt(limit, 10),
             subQuery: false
         })
@@ -74,8 +82,96 @@ function getProjects(userMid, pageNo, limit) {
     });
 }
 
-function getSearchedProjects(projectIds, userMid, pageNo, limit) {
+function getSearchedProjects(projectIds, technologies, tools) {
     return new Promise(function (resolve, reject) {
+
+        var Technologies;
+        var Tools;
+
+        if (technologies) {
+            Technologies = {
+                model: Technology,
+                where: {
+                    id: {
+                        [Op.in]: technologies
+                    }
+                }
+            }
+        }
+        else {
+            Technologies = Technology
+        }
+
+        if (tools) {
+            Tools = {
+                model: Tool,
+                where: {
+                    id: {
+                        [Op.in]: tools
+                    }
+                }
+            }
+        }
+        else {
+            Tools = Tool
+        }
+
+        Project.findAll({
+            where: {
+                id: {
+                    [Op.in]: projectIds
+                }
+            },
+            attributes: ['id'],
+            include: [Technologies, Tools],
+        })
+            .then(function (project, err) {
+                if (!err) {
+                    console.log("Projects retrieved{{In DAO}}");
+                    resolve(project);
+                } else {
+                    console.log("Failed to get projects {{In DAO}} ", err);
+                    reject(new Error("Failed to get projects {{In DAO}}"));
+                }
+            }).catch((error) => {
+                console.log("Failed to get projects {{In DAO}}");
+                console.log('Error', error);
+                reject(new Error("Failed to get projects {{In DAO}}"));
+            });
+    });
+}
+
+function getProjectByTagName(tagName) {
+    return new Promise(function (resolve, reject) {
+
+        Project.findAll({
+            attributes: ['id'],
+            include: [
+                {
+                    model: Tag,
+                    where: { name: tagName }
+                }
+            ]
+        })
+            .then(function (project, err) {
+                if (!err) {
+                    console.log("Projects retrieved{{In DAO}}");
+                    resolve(project);
+                } else {
+                    console.log("Failed to get projects {{In DAO}} ", err);
+                    reject(new Error("Failed to get projects {{In DAO}}"));
+                }
+            }).catch((error) => {
+                console.log("Failed to get projects {{In DAO}}");
+                console.log('Error', error);
+                reject(new Error("Failed to get projects {{In DAO}}"));
+            });
+    });
+}
+
+function getResults(projectIds, userMid, pageNo, limit) {
+    return new Promise(function (resolve, reject) {
+
         Project.findAll({
             where: {
                 id: {
@@ -100,7 +196,7 @@ function getSearchedProjects(projectIds, userMid, pageNo, limit) {
                     required: false
                 }
             ],
-            offset: (pageNo - 1) * limit,
+            offset: (parseInt(pageNo, 10) - 1) * parseInt(limit, 10),
             limit: parseInt(limit, 10),
             subQuery: false
         })
@@ -207,6 +303,8 @@ function getProjectByProjectId(projectId) {
             });
     });
 }
+
+
 
 function likeProject(project, user) {
     return new Promise(function (resolve, reject) {
@@ -318,6 +416,36 @@ function shareProject(projectId, count) {
     });
 }
 
+function downloadProject(projectId) {
+    return new Promise(function (resolve, reject) {
+
+        Project.increment('download', { where: { id: projectId } })
+            .then(async () => Project.findByPk(projectId, {
+                include: [Technology, Tool, Offering, Tag, SubVertical, SubPractice, Account, Vertical, Practice, Contract, Customer,
+                    {
+                        model: User,
+                        as: 'user',
+                        attributes: { exclude: ['role'] }
+                    }
+                ]
+            }))
+            .then((project, err) => {
+                if (!err) {
+                    console.log("Project download count incremented by id {{In DAO}}");
+                    resolve(project);
+                } else {
+                    console.log("Failed to increment download count of project by id {{In DAO}} ", err);
+                    reject(new Error("Failed to increment download count of project by id {{In DAO}}"));
+                }
+            }).catch((error) => {
+                console.log("Failed to increment download count of project by id {{In DAO}}");
+                console.log('Error', error);
+                reject(new Error("Failed to increment download count of project by id {{In DAO}}"));
+            });
+
+    });
+}
+
 function getMostLikedProjects() {
     return new Promise(function (resolve, reject) {
         Project.findAll({
@@ -374,6 +502,36 @@ function getMostSharedProjects() {
                 console.log("Failed to get most shared projects {{In DAO}}");
                 console.log('Error', error);
                 reject(new Error("Failed to get most shared projects {{In DAO}}"));
+            });
+    });
+}
+
+function getMostDownloadededProjects() {
+    return new Promise(function (resolve, reject) {
+        Project.findAll({
+            order: [["download", "DESC"]],
+            limit: 3,
+            attributes: ['id', 'title', 'coverImage'],
+            include: [
+                {
+                    model: User,
+                    as: 'user',
+                    attributes: { exclude: ['role'] }
+                }
+            ]
+        })
+            .then(function (project, err) {
+                if (!err) {
+                    console.log("Most downloaded projects retrieved {{In DAO}}");
+                    resolve(project);
+                } else {
+                    console.log("Failed to get most downloaded projects {{In DAO}} ", err);
+                    reject(new Error("Failed to get most downloaded projects {{In DAO}}"));
+                }
+            }).catch((error) => {
+                console.log("Failed to get most downloaded projects {{In DAO}}");
+                console.log('Error', error);
+                reject(new Error("Failed to get most downloaded projects {{In DAO}}"));
             });
     });
 }

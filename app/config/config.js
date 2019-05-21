@@ -12,13 +12,18 @@ module.exports = {
     user: 'projectcaselets',
     password: 'caselet@123',
     database: 'projectcaseletsdev',
-    dialect: 'mssql', 
+    dialect: 'mssql',
 
-    // Azure Storage
-    accountName: "storyformsdiag",
-    storageKey: "auxDT4LYu+gIpkaI/baWDoY7BQ9eGRZyD5U8VM3xp9d1tq+GQ6TjsZznZ96/Y5AaS7b8z5DtHJjLHT1UikkvLg==",
-    // storageContainer: "project-story-images",
-    storageContainer: "project-caselets",
+    // // Azure Storage
+    // accountName: "storyformsdiag",
+    // storageKey: "auxDT4LYu+gIpkaI/baWDoY7BQ9eGRZyD5U8VM3xp9d1tq+GQ6TjsZznZ96/Y5AaS7b8z5DtHJjLHT1UikkvLg==",
+    // // storageContainer: "project-story-images",
+    // storageContainer: "project-caselets",
+
+    // Project Caselets Azure Storage
+    accountName: "projectcaselets",
+    storageKey: "e+nuAH+/Hzxq1fgOKlO7Z7qwUgj9HUOReD/Wq+0HAgQJkWh+IjJrPjXCJBXJO4vHPDMgGcmNxO75c+/o7NuMCQ==",
+    storageContainer: "project-caselet-images",
 
     // Azure Search
     searchUrl: "https://projectcaselets.search.windows.net",
@@ -37,7 +42,7 @@ module.exports = {
     // pass: "",
 
     // Azure Authentication
-    appName : "ProjectCaselet",
+    appName: "ProjectCaselet",
     appID: "6583a1d7-a120 - 4703 - 9188 - b69793cdbff1",
     appKey: "I* f340kXjR9PMV + v_lWQrbLT - 309 + Ir6",
     tenantId: "85c997b9-f494-46b3-a11d-772983cf6f11"

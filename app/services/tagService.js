@@ -3,7 +3,8 @@ var Promise = require('bluebird');
 var tagDao = require('../dao/tagDao');
 
 var tagService = {
-    getTagCount: getTagCount
+    getTagCount: getTagCount,
+    getProjectByTagName: getProjectByTagName
 }
 
 function getTagCount() {
@@ -16,6 +17,30 @@ function getTagCount() {
             reject(err);
         });
     });
+}
+
+function getProjectByTagName(tag, userMid, pageNo, limit) {
+    return new Promise(function (resolve, reject) {
+        storyDao.getProjectByTagName(tag)
+            .then((project) => {
+                const id = project.map(res => parseInt(res.dataValues.id));
+                console.log(id);
+
+                storyDao.getResults(id, userMid, pageNo, limit)
+                    .then((result) => {
+                        console.log("Projects retrieved! {{In Service}}");
+                        resolve(result);
+                    })
+                    .catch(function (err) {
+                        console.log("Failed to get projects {{In Service}}", err);
+                        reject(err);
+                    });
+            })
+            .catch(function (err) {
+                console.log("Failed to get projects {{In Service}}", err);
+                reject(err);
+            });
+    })
 }
 
 module.exports = tagService;

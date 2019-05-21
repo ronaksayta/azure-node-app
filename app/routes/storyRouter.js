@@ -27,6 +27,9 @@ storyRouter.route('/dislike/:projectId')
 storyRouter.route('/share/:projectId')
     .put(azureAuthentication, storyController.shareProject);
 
+storyRouter.route('/download/:projectId')
+    .put(azureAuthentication, storyController.downloadProject);
+
 storyRouter.route('/search')
     .get(azureAuthentication, storyController.searchAndFilterProject);
 

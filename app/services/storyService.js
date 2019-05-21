@@ -16,6 +16,7 @@ var storyService = {
     getMostLikedProjects: getMostLikedProjects,
     getMostSharedProjects: getMostSharedProjects,
     addPendingStory: addPendingStory,
+    downloadProject: downloadProject,
     getSavedStoriesByUser: getSavedStoriesByUser,
     searchAndFilterProject: searchAndFilterProject
 }
@@ -43,6 +44,19 @@ function searchAndFilterProject(searchValue, filterValue, pageNo, limit, userMid
                 reject(new Error("Failed to search projects {{In Service}}"));
             }
         });
+    });
+}
+
+function downloadProject(projectId) {
+    return new Promise(function (resolve, reject) {
+        storyDao.downloadProject(projectId)
+            .then(function (project) {
+                console.log("Project downloaded! {{In Service}}");
+                resolve(project);
+            }).catch(function (err) {
+                console.log("Failed to download project {{In Service}}", err);
+                reject(err);
+            });
     });
 }
 

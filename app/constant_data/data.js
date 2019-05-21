@@ -1,22 +1,32 @@
 module.exports = {
 
-    contract: ["FMC", "FPC", "TnM"],
+    contract: ["Fixed Price", "FMC", "FPC", "TnM"],
     offering: [
         "Agile",
-        "Application development and support",
-        "Application managed services",
+        "Application Development and Support",
+        "Application Managed Services",
         "Automation",
-        "Business process management",
-        "Infrastructure management",
-        "Integrated services",
-        "Reliability engineering management",
-        "Test engineering"
+        "Business process Management",
+        "Cloud Automation",
+        "Data Management and Engineering",
+        "Digital Solution",
+        "Digital Transformation",
+        "Infrastructure Management",
+        "Integrated Services",
+        "Maintainance",
+        "Package Implementation",
+        "Point of Sales",
+        "Reliability Engineering Management",
+        "Test Engineering"
     ],
     vertical: [
         "BFSI",
+        "Enterprise to Employee",
         "Hi-Tech & Media",
         "Microsoft",
+        "RCM",
         "Retail, CPG, MFG",
+        "TMS",
         "TTH"
     ],
     sub_vertical: [
@@ -26,6 +36,7 @@ module.exports = {
         "Consumer Technology",
         "Education",
         "Enterprise Technology",
+        "Financial Services",
         "Insurance",
         "Manufacturing",
         "Media and Entertainment",
@@ -66,6 +77,10 @@ module.exports = {
         {
             practice: "CAG",
             name: "Fast Track"
+        },
+        {
+            practice: "CAG",
+            name: "Not Applicable"
         },
         {
             practice: "CTO",
@@ -142,7 +157,7 @@ module.exports = {
         {
             practice: "DIGITAL",
             name: "Mobile Applications"
-        },
+        },  
         {
             practice: "DIGITAL",
             name: "Not Applicable"
@@ -254,6 +269,10 @@ module.exports = {
         {
             practice: "MMS",
             name: "MIDRANGE"
+        },
+        {
+            practice: "MMS",
+            name: "Not Applicable"
         },
         {
             practice: "MUREX",
@@ -417,6 +436,10 @@ module.exports = {
         },
         {
             practice: "TESTING",
+            name: "Not Applicable"
+        },
+        {
+            practice: "TESTING",
             name: "Automation Testing"
         },
         {
@@ -471,9 +494,10 @@ module.exports = {
         "Academy Sports",
         "ACTIONAID INT. UK",
         "Acumatica",
-        "adidas",
+        "Adidas",
         "Affinion Group",
         "Aflac",
+        "ABG-UK",
         "AIA Bhd.",
         "AIG",
         "Akzo Nobel",
@@ -545,6 +569,7 @@ module.exports = {
         "Dentsply Sirona",
         "DEPARTMENT FOR COMMU",
         "Diebold Systems",
+        "Digital",
         "DS Smith",
         "Dubai Properties",
         "E&Y",
@@ -624,6 +649,7 @@ module.exports = {
         "Liberty One Steel",
         "Lifestyle",
         "Lincoln",
+        "Link Administration Holdings Pty Limited",
         "Lions Clubs Intl'",
         "L'Oreal",
         "Lufthansa Cargo",

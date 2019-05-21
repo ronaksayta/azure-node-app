@@ -32,6 +32,10 @@ module.exports = (sequelize, Sequelize) => {
         share: {
             type: Sequelize.INTEGER,
             defaultValue: 0
+        },
+        download: {
+            type: Sequelize.INTEGER,
+            defaultValue: 0
         }
     }, {
             timestamps: true,
