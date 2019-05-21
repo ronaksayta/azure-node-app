@@ -1,12 +1,13 @@
 const azureStorage = require('azure-storage');
 const getStream = require('into-stream');
 const jwt_decode = require('jwt-decode');
+const config = require('../config/config');
 
 const azureStorageConfig = {
-    accountName: "storyformsdiag",
-    accountKey: "auxDT4LYu+gIpkaI/baWDoY7BQ9eGRZyD5U8VM3xp9d1tq+GQ6TjsZznZ96/Y5AaS7b8z5DtHJjLHT1UikkvLg==",
+    accountName: config.accountName,
+    accountKey: config.storageKey,
     blobURL: "",
-    containerName: "project-story-images"
+    containerName: config.storageContainer
 };
 
 blobSvc = azureStorage.createBlobService(azureStorageConfig.accountName, azureStorageConfig.accountKey);
@@ -16,7 +17,7 @@ function getImageName(MID) {
 }
 
 async function getUrl(project) {
-    return blobSvc.getUrl('project-caselets', project);
+    return blobSvc.getUrl(azureStorageConfig.containerName, project);
 }
 
 
@@ -27,7 +28,7 @@ const uploadAzureImage = (req, res) => {
     const blobName = getImageName(mid) + req.file.originalname;
     const stream = getStream(req.file.buffer);
     const streamLength = req.file.buffer.length;
-    blobSvc.createBlockBlobFromStream('project-caselets', `${blobName}`, stream, streamLength, function (error, result, uploaded) {
+    blobSvc.createBlockBlobFromStream(azureStorageConfig.containerName, `${blobName}`, stream, streamLength, function (error, result, uploaded) {
         if (!error) {
             console.log(blobName);
             getUrl(blobName).then((url) => {
