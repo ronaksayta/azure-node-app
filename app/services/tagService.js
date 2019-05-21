@@ -1,5 +1,6 @@
 var Promise = require('bluebird');
 
+var storyDao = require('../dao/storyDao');
 var tagDao = require('../dao/tagDao');
 
 var tagService = {

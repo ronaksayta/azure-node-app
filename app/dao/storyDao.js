@@ -142,6 +142,7 @@ function getSearchedProjects(projectIds, technologies, tools) {
 }
 
 function getProjectByTagName(tagName) {
+    console.log('works');
     return new Promise(function (resolve, reject) {
 
         Project.findAll({
