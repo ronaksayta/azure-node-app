@@ -1,0 +1,443 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Project Caselets",
+		"_postman_id": "e8d9fc7e-9cb3-09ac-8687-04d31275a3e5",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Filters",
+			"request": {
+				"url": "localhost:3000/filter",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNDk1ODg3NjJjMzdiOTQ4OGI1ZmM5OSIsImlhdCI6MTU1MDAzNjYzNiwiZXhwIjoxNTUwMTM2NjM2fQ.KgDlRpWUOnchBnPu9Ez-HqIG-zalK0b78eXDkwGB6so",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Caselets",
+			"request": {
+				"url": {
+					"raw": "localhost:3000/caselet?pageNo=1&limit=5",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"caselet"
+					],
+					"query": [
+						{
+							"key": "pageNo",
+							"value": "1",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "limit",
+							"value": "5",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtaWQiOiJNMTA0Njk1NyIsInJvbGUiOiJVc2VyIiwibmFtZSI6IlNodWJoYW0gS2FyYW5qa2FyIiwiaWF0IjoxNTU3MzEyMTM1fQ.1NlJvbefVSCEOXuHE5nJTQAeCHROie_QIqiTq5u9jko",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Most Shared",
+			"request": {
+				"url": "localhost:3000/caselet/share",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Most Liked",
+			"request": {
+				"url": "localhost:3000/caselet/like",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Tag Count",
+			"request": {
+				"url": "localhost:3000/tags",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNDk1ODg3NjJjMzdiOTQ4OGI1ZmM5OSIsImlhdCI6MTU1MDAzNjYzNiwiZXhwIjoxNTUwMTM2NjM2fQ.KgDlRpWUOnchBnPu9Ez-HqIG-zalK0b78eXDkwGB6so",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Save Caselet",
+			"request": {
+				"url": "localhost:3000/caselet",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtaWQiOiJNMTAzNzU0MiIsInJvbGUiOiJhZG1pbiIsIm5hbWUiOiJTbmlnZGhhIFN1a3VuIiwiaWF0IjoxNTU2MDExOTk4fQ.iGDX6cwbGjaqJXGHz8W8C2KzazrtUt7-bdX3u4m4Kkg",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{       \r\n      \"title\": \"Culture Tree\",\r\n        \"vertical\": \"TTH\",\r\n        \"account\": \"Mindtree\",\r\n        \"domain\": \"Web App\",\r\n        \"coverImage\": \"\",\r\n\t\t\"submit\": false,\r\n\t\t\"engineering\": \"\",\r\n        \"tags\": [\"technology\", \"story\", \"website\"],\r\n        \"technologies\": [\"nodejs\", \"reactjs\", \"express\", \"mongodb\"],\r\n        \"tools\": [\"VSC\"],\r\n        \"expertsOfTopic\": [],\r\n        \"offering\": \"Agile\",\r\n        \"subVertical\": \"Banking\",\r\n        \"subPractice\": \"CLOUD\",\r\n        \"practice\": \"DIGITAL\",\r\n        \"contract\": \"FPC\",\r\n        \"customer\": {\r\n        \t\"name\": \"Mindtree Limited\",\r\n        \t\"details\": \"Mindtree Limited is a multinational information technology and outsourcing company headquartered in Bengaluru, India and New Jersey, USA.\"\r\n        },\r\n        \"projectDetails\": \"Mindtree believes that the culture of their organization is a key differentiator and will be the reason that customers will come back with repeat business.\",\r\n        \"benefits\": \"We have developed the MVP within 6 sprints of 2 weeks each. Based on user inputs we are making some changes to the Home Page and the viewing modals which will take another sprint.\",\r\n        \"challenges\": \"\",\r\n        \"solution\": \"We looked at creating a digital platform which will allow Mindtree Minds to share their stories across the organization. It will also solicit stories from their employees.\",\r\n        \"executionSummary\": \"\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Saved Caselet By User",
+			"request": {
+				"url": "localhost:3000/caselet/save/M1037542",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Sumbitted Caselets",
+			"request": {
+				"url": "localhost:3000/admin",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtaWQiOiJNMTAzNzU0MiIsInJvbGUiOiJhZG1pbiIsIm5hbWUiOiJTbmlnZGhhIFN1a3VuIiwiaWF0IjoxNTU2MDExOTk4fQ.iGDX6cwbGjaqJXGHz8W8C2KzazrtUt7-bdX3u4m4Kkg",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Sumbitted Caselet By Id",
+			"request": {
+				"url": "localhost:3000/admin/1",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtaWQiOiJNMTAzNzU0MiIsInJvbGUiOiJhZG1pbiIsIm5hbWUiOiJTbmlnZGhhIFN1a3VuIiwiaWF0IjoxNTU2MDExOTk4fQ.iGDX6cwbGjaqJXGHz8W8C2KzazrtUt7-bdX3u4m4Kkg",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Approve Caselet",
+			"request": {
+				"url": "localhost:3000/admin",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtaWQiOiJNMTAzNzU0MiIsInJvbGUiOiJhZG1pbiIsIm5hbWUiOiJTbmlnZGhhIFN1a3VuIiwiaWF0IjoxNTU2MDExOTk4fQ.iGDX6cwbGjaqJXGHz8W8C2KzazrtUt7-bdX3u4m4Kkg",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{       \r\n      \"title\": \"Culture Tree\",\r\n        \"vertical\": \"TTH\",\r\n        \"account\": \"Mindtree\",\r\n        \"domain\": \"Web App\",\r\n        \"coverImage\": \"\",\r\n\t\t\"engineering\": \"\",\r\n        \"expertsOfTopic\": [],\r\n        \"tags\": [\"technology\", \"story\", \"website\"],\r\n        \"technologies\": [\"nodejs\", \"reactjs\", \"express\", \"mongodb\"],\r\n        \"tools\": [\"VSC\"],\r\n        \"offering\": \"Agile\",\r\n        \"subVertical\": \"Banking\",\r\n        \"subPractice\": \"CLOUD\",\r\n        \"practice\": \"DIGITAL\",\r\n        \"contract\": \"FPC\",\r\n        \"user\": {\r\n        \t\"mid\": \"M1037542\",\r\n        \t\"name\": \"Snigdha Sukun\"\r\n        },\r\n        \"customer\": {\r\n        \t\"name\": \"Mindtree Limited\",\r\n        \t\"details\": \"Mindtree Limited is a multinational information technology and outsourcing company headquartered in Bengaluru, India and New Jersey, USA.\"\r\n        },\r\n        \"projectDetails\": \"Mindtree believes that the culture of their organization is a key differentiator and will be the reason that customers will come back with repeat business.\",\r\n        \"benefits\": \"We have developed the MVP within 6 sprints of 2 weeks each. Based on user inputs we are making some changes to the Home Page and the viewing modals which will take another sprint.\",\r\n        \"challenges\": \"\",\r\n        \"solution\": \"We looked at creating a digital platform which will allow Mindtree Minds to share their stories across the organization. It will also solicit stories from their employees.\",\r\n        \"executionSummary\": \"\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Caselet By ID",
+			"request": {
+				"url": "localhost:3000/caselet/1",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNDk1ODg3NjJjMzdiOTQ4OGI1ZmM5OSIsImlhdCI6MTU1MDAzNjYzNiwiZXhwIjoxNTUwMTM2NjM2fQ.KgDlRpWUOnchBnPu9Ez-HqIG-zalK0b78eXDkwGB6so",
+						"description": "",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Like Project",
+			"request": {
+				"url": "localhost:3000/caselet/like/1",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtaWQiOiJNMTA0Njk1NyIsInJvbGUiOiJVc2VyIiwibmFtZSI6IlNodWJoYW0gS2FyYW5qa2FyIiwiaWF0IjoxNTU3MzEyMTM1fQ.1NlJvbefVSCEOXuHE5nJTQAeCHROie_QIqiTq5u9jko",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Dislike Project",
+			"request": {
+				"url": "localhost:3000/caselet/dislike/1",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtaWQiOiJNMTA0Njk1NyIsInJvbGUiOiJVc2VyIiwibmFtZSI6IlNodWJoYW0gS2FyYW5qa2FyIiwiaWF0IjoxNTU3MzEyMTM1fQ.1NlJvbefVSCEOXuHE5nJTQAeCHROie_QIqiTq5u9jko",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Share Project",
+			"request": {
+				"url": "localhost:3000/caselet/share/1",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtaWQiOiJNMTA0Njk1NyIsInJvbGUiOiJVc2VyIiwibmFtZSI6IlNodWJoYW0gS2FyYW5qa2FyIiwiaWF0IjoxNTU3MzEyMTM1fQ.1NlJvbefVSCEOXuHE5nJTQAeCHROie_QIqiTq5u9jko",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"to\": \n\t[\n\t\t{\n\t\t\t\"name\": \"Snigdha Sukun\",\n\t\t\t\"mid\": \"M1037542\",\n\t\t\t\"email\": \"snigdha.sukun@mindtree.com\"\n\t\t\t\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Ronak Satya\",\n\t\t\t\"mid\": \"M1046945\",\n\t\t\t\"email\": \"Ronak.Sayta2@mindtree.com\"\n\t\t}\n\t],\n\t\"message\": \"Check this out\",\n\t\"title\": \"Test Title\",\n\t\"link\": \"http://localhost:4200/caselet/1\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Save Image",
+			"request": {
+				"url": "localhost:3000/image",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtaWQiOiJNMTAzNzU0MiIsInJvbGUiOiJhZG1pbiIsIm5hbWUiOiJTbmlnZGhhIFN1a3VuIiwiaWF0IjoxNTU1OTI1MzAwfQ.CQjX61dcE-y6tKUEO8NzbNPyvnbdu0YAEvk58uP3GLM"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "image",
+							"type": "file",
+							"src": "",
+							"value": ""
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Image Entry",
+			"request": {
+				"url": "localhost:3000/image",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"imageUrl\": \"https://storyformsdiag.blob.core.windows.net/project-story-images/M1037542_1555926028392.jpg\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Send Feedback",
+			"request": {
+				"url": "localhost:3000/admin/1",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtaWQiOiJNMTAzNzU0MiIsInJvbGUiOiJhZG1pbiIsIm5hbWUiOiJTbmlnZGhhIFN1a3VuIiwiaWF0IjoxNTU2MDExOTk4fQ.iGDX6cwbGjaqJXGHz8W8C2KzazrtUt7-bdX3u4m4Kkg"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"message\": \"Hi\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Search & Filter",
+			"request": {
+				"url": {
+					"raw": "http://localhost:3000/caselet/search?search=*&filter=sub_vertical_id eq 1 and sub_practice_id eq 2&pageNo=1&limit=5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"caselet",
+						"search"
+					],
+					"query": [
+						{
+							"key": "search",
+							"value": "*",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "filter",
+							"value": "sub_vertical_id eq 1 and sub_practice_id eq 2",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "pageNo",
+							"value": "1",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "limit",
+							"value": "5",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
