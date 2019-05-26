@@ -32,9 +32,17 @@ function searchAndFilterProject(searchValue, filterValue, pageNo, limit, userMid
 
                 const ids = results.map(robot => parseInt(robot.id));
                 storyDao.getSearchedProjects(ids, userMid, pageNo, limit)
-                    .then(function (project) {
+                    .then(function (projects) {
+                        var projectLiked = projects.map(project => {
+                            if (project.dataValues.likes.length == 0)
+                                project.dataValues.liked = false
+                            else
+                                project.dataValues.liked = true;
+        
+                            return project;
+                        });
                         console.log("Projects retrieved! {{In Service}}");
-                        resolve(project);
+                        resolve(projectLiked);
                     }).catch(function (err) {
                         console.log("Failed to get projects {{In Service}}", err);
                         reject(err);
@@ -63,9 +71,17 @@ function downloadProject(projectId) {
 function getProjects(userMid, pageNo, limit) {
     return new Promise(function (resolve, reject) {
         storyDao.getProjects(userMid, pageNo, limit)
-            .then(function (project) {
+            .then(function (projects) {
+                var projectLiked = projects.map(project => {
+                    if (project.dataValues.likes.length == 0)
+                        project.dataValues.liked = false
+                    else
+                        project.dataValues.liked = true;
+
+                    return project;
+                });
                 console.log("Projects retrieved! {{In Service}}");
-                resolve(project);
+                resolve(projectLiked);
             }).catch(function (err) {
                 console.log("Failed to get projects {{In Service}}", err);
                 reject(err);
