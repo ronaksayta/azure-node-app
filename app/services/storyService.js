@@ -189,13 +189,23 @@ function likeProject(projectId, user) {
         Promise.all([likedProject, projects, users])
             .then((values) => {
                 console.log("Liked Project: ", values[0].likes.length);
-
                 if (values[0].likes.length == 0) {
                     storyDao.likeProject(values[1], values[2]).then(function (project) {
                         console.log("Project liked! {{In Service}}");
                         resolve(project);
                     }).catch(function (err) {
                         console.log("Failed to like project {{In Service}}", err);
+                        reject(err);
+                    });
+                }                 
+                else if (values[0].likes.length == 1) {
+                    storyDao.dislikeProject(values[0], values[2]).then(function (project) {
+                        console.log("Project disliked! {{In Service}}");
+                        resolve({
+                            message : 'Project diskliked!'
+                        });
+                    }).catch(function (err) {
+                        console.log("Failed to dislike project {{In Service}}", err);
                         reject(err);
                     });
                 }
