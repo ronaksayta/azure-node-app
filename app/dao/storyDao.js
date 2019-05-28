@@ -238,7 +238,7 @@ function addProject(body, tags, technologies, tools) {
                     resolve(projectWithAssociation);
                 } else {
                     console.log("Failed to add project {{In DAO}} ", err);
-                    reject(new Error("Failed to add project {{In DAO}}"));
+                    reject(err);
                 }
             }).catch((error) => {
                 console.log("Failed to add project {{In DAO}}");

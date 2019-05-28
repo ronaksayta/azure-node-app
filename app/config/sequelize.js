@@ -23,9 +23,16 @@ const sequelize = new Sequelize(config.database, config.user, config.password, {
     dialect: config.dialect,
     dialectOptions: {
         options: {
+            requestTimeout: 200000,
             encrypt: true
         }
     },
+    pool: {
+        max: 10,
+        min: 0,
+        acquire: 50000,
+        idle: 20000
+      },
     logging: false
 });
 
