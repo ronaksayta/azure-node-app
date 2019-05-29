@@ -27,6 +27,12 @@ var bearerStrategy = new OIDCBearerStrategy(options,
 
 passport.use(bearerStrategy);
 
-module.exports = passport.authenticate('oauth-bearer', {
-    session: false
-})
+function disabled (req, res, next) {
+    next();
+}
+
+// module.exports = passport.authenticate('oauth-bearer', {
+//     session: false
+// })
+
+module.exports = disabled

@@ -1,5 +1,6 @@
 exports.creds = {
   identityMetadata: 'https://login.microsoftonline.com/mindtreeonline.onmicrosoft.com/.well-known/openid-configuration',
+  // clientID: '6583a1d7-a120-4703-9188-b69793cdbff1',
   clientID: '6583a1d7-a120-4703-9188-b69793cdbff1',
   validateIssuer: true,
   passReqToCallback: false,

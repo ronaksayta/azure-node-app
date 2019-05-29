@@ -21,40 +21,6 @@ var storyService = {
     searchAndFilterProject: searchAndFilterProject
 }
 
-function searchAndFilterProject(searchValue, filterValue, pageNo, limit, userMid) {
-    return new Promise((resolve, reject) => {
-        var client = AzureSearch({
-            url: config.searchUrl,
-            key: config.queryKey
-        });
-        client.search('project', { search: searchValue, filter: filterValue, top: parseInt(limit), skip: (pageNo - 1)*limit }, function (err, results) {
-            if (!err) {
-
-                const ids = results.map(robot => parseInt(robot.id));
-                storyDao.getSearchedProjects(ids, userMid, pageNo, limit)
-                    .then(function (projects) {
-                        var projectLiked = projects.map(project => {
-                            if (project.dataValues.likes.length == 0)
-                                project.dataValues.liked = false
-                            else
-                                project.dataValues.liked = true;
-        
-                            return project;
-                        });
-                        console.log("Projects retrieved! {{In Service}}");
-                        resolve(projectLiked);
-                    }).catch(function (err) {
-                        console.log("Failed to get projects {{In Service}}", err);
-                        reject(err);
-                    });
-            } else {
-                console.log("Failed to search projects {{In Service}} ", err);
-                reject(new Error("Failed to search projects {{In Service}}"));
-            }
-        });
-    });
-}
-
 function downloadProject(projectId) {
     return new Promise(function (resolve, reject) {
         storyDao.downloadProject(projectId)
@@ -311,6 +277,94 @@ function getMostSharedProjects() {
         }).catch(function (err) {
             console.log("Failed to get most shared projects {{In Service}}", err);
             reject(err);
+        });
+    });
+}
+
+function searchAndFilterProject(searchValue, filterValue, pageNo, limit, userMid, technologies, tools) {
+    return new Promise((resolve, reject) => {
+        var client = AzureSearch({
+            url: config.searchUrl,
+            key: config.queryKey
+        });
+        client.search(config.index, { search: searchValue, filter: filterValue }, function (err, results) {
+            if (!err) {
+
+                const ids = results.map(result => parseInt(result.id));
+                console.log(ids);
+                console.log("Technologies: ", technologies);
+                console.log("Tools: ", tools);
+
+                var tech;
+
+                if (typeof technologies == "undefined" || technologies.length == 0) {
+                    tech = null;
+                }
+                else {
+                    tech = technologies.split(',').map(function (item) {
+                        return parseInt(item, 10);
+                    });
+                }
+
+                var tool;
+                if (typeof tools == "undefined" || tools.length == 0) {
+                    tool = null;
+                }
+                else {
+                    tool = tools.split(',').map(function (item) {
+                        return parseInt(item, 10);
+                    });
+                }
+
+                console.log("Tech: ", tech);
+                console.log("Tool: ", tool);
+                storyDao.getSearchedProjects(ids, tech, tool)
+                    .then(function (project) {
+                        const ids = project.map(res => parseInt(res.dataValues.id));
+                        console.log(ids);
+
+                        storyDao.getResults(ids, userMid, pageNo, limit)
+                            .then((result) => {
+
+                                var caselets = result.map(res => {
+                                    if (res.dataValues.likes.length == 0)
+                                        res.dataValues.liked = false
+                                    else
+                                        res.dataValues.liked = true;
+
+                                    return res;
+                                });
+                                
+                                var caselet = ids.map(id => {
+                                    // console.log(id);
+
+                                    for (let i = 0; i < caselets.length; i++) {
+                                        // console.log(caselets[i]);
+
+                                        if (caselets[i].dataValues.id == id)
+                                            return caselets[i];
+                                    }
+                                });
+
+                                // console.log(caselet);
+                                caselet.map(s => console.log(s.dataValues.id));
+
+                                console.log("Projects retrieved! {{In Service}}");
+                                resolve(caselet);
+                            })
+                            .catch(function (err) {
+                                console.log("Failed to get projects {{In Service}}", err);
+                                reject(err);
+                            });
+                    })
+                    .catch(function (err) {
+                        console.log("Failed to get projects {{In Service}}", err);
+                        reject(err);
+                    });
+            } else {
+                console.log("Failed to search projects {{In Service}} ", err);
+                reject(new Error("Failed to search projects {{In Service}}"));
+            }
         });
     });
 }

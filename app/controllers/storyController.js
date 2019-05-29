@@ -30,8 +30,11 @@ function searchAndFilterProject(req, res) {
     var filterData = req.query.filter;
     var pageNo = req.query.pageNo;
     var limit = req.query.limit;
+    var technologies = req.query.technologies;
+    var tools = req.query.tools;
     
-    storyService.searchAndFilterProject(searchData, filterData, pageNo, limit, req.user.mid).then((searchResults) => {
+    storyService.searchAndFilterProject(searchData, filterData, pageNo, limit, req.user.mid, technologies, tools)
+        .then((searchResults) => {
         response.data.projects = searchResults;
         response.status.statusCode = '200';
         response.status.message = 'Project retrieved!!';
