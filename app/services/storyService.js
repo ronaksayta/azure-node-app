@@ -290,8 +290,8 @@ function searchAndFilterProject(searchValue, filterValue, pageNo, limit, userMid
         client.search(config.index, { search: searchValue, filter: filterValue }, function (err, results) {
             if (!err) {
 
-                const ids = results.map(result => parseInt(result.id));
-                console.log(ids);
+                const searchedIds = results.map(result => parseInt(result.id));
+                console.log(searchedIds);
                 console.log("Technologies: ", technologies);
                 console.log("Tools: ", tools);
 
@@ -318,7 +318,7 @@ function searchAndFilterProject(searchValue, filterValue, pageNo, limit, userMid
 
                 console.log("Tech: ", tech);
                 console.log("Tool: ", tool);
-                storyDao.getSearchedProjects(ids, tech, tool)
+                storyDao.getSearchedProjects(searchedIds, tech, tool)
                     .then(function (project) {
                         const ids = project.map(res => parseInt(res.dataValues.id));
                         console.log(ids);
@@ -335,15 +335,8 @@ function searchAndFilterProject(searchValue, filterValue, pageNo, limit, userMid
                                     return res;
                                 });
                                 
-                                var caselet = ids.map(id => {
-                                    // console.log(id);
-
-                                    for (let i = 0; i < caselets.length; i++) {
-                                        // console.log(caselets[i]);
-
-                                        if (caselets[i].dataValues.id == id)
-                                            return caselets[i];
-                                    }
+                                var caselet = caselets.sort((a, b) => {
+                                    return searchedIds.indexOf(a.dataValues.id) - searchedIds.indexOf(b.dataValues.id);
                                 });
 
                                 // console.log(caselet);
