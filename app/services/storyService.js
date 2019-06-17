@@ -18,7 +18,25 @@ var storyService = {
     addPendingStory: addPendingStory,
     downloadProject: downloadProject,
     getSavedStoriesByUser: getSavedStoriesByUser,
-    searchAndFilterProject: searchAndFilterProject
+    searchAndFilterProject: searchAndFilterProject,
+    getProjectByPagination: getProjectByPagination
+}
+
+function getProjectByPagination(mid, limit, pageNo) {
+    return new Promise((resolve, reject) => {
+        storyDao.getProjectIdByPagination(limit, pageNo)
+        .then((projects) => {
+            projectArray = [];
+            projects.map(project => projectArray.push(project.id));
+            storyDao.getProjectsByArray(projectArray, mid).then((projects) => {
+                resolve(projects)
+            }).catch((error) => {
+                reject(error)
+            })
+        }).catch((error) => {
+            reject(error);
+        });
+    });
 }
 
 function downloadProject(projectId) {

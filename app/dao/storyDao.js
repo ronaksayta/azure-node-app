@@ -34,15 +34,80 @@ var storyDao = {
     getMostLikedProjects: getMostLikedProjects,
     getMostSharedProjects: getMostSharedProjects,
     getMostDownloadededProjects: getMostDownloadededProjects,
-    getProjectByProjectId: getProjectByProjectId
+    getProjectByProjectId: getProjectByProjectId,
+    getProjectsByArray: getProjectsByArray,
+    getProjectIdByPagination: getProjectIdByPagination
+}
+
+function getProjectsByArray(projects, userMid) {
+    return new Promise((resolve, reject) => {
+        console.log(projects)
+        Project.findAll({
+            where: {
+                id: {
+                [Op.in]: projects
+            }
+        },
+            attributes: { exclude: ['projectDetails', 'challenges', 'solution', 'benefits', 'executionSummary', 'expertsOfTopic', 'offeringId', 'subVerticalId', 'serviceId', 'accountId', 'verticalId', 'practiceId', 'contractId', 'customerId'] },
+            include: [Technology, Tool, Offering, Tag, SubVertical, SubPractice, Account, Vertical, Practice, Contract,
+                {
+                    model: Customer,
+                    attributes: { include: ['id', 'name'], exclude: ['details'] }
+                },
+                {
+                    model: User,
+                    as: 'user',
+                    attributes: { exclude: ['role'] }
+                },
+                {
+                    model: User,
+                    as: 'likes',
+                    where: { mid: userMid },
+                    required: false
+                }
+            ],
+            subQuery: false
+        })
+            .then((projects, error) => {
+                if (!error) {
+                    resolve(projects);
+                } else {
+                    reject(error);
+                }
+            }).catch((error) => {
+                console.error('Failed to get project in Dao', error);
+                reject(new Error("Failed to get projects"));
+            });
+    });
+}
+
+function getProjectIdByPagination(limit, pageNo) {
+    return new Promise(function (resolve, reject) {
+        const offset = limit * (pageNo - 1);
+        console.log('Reached!');
+        limit = parseInt(limit);
+        Project.findAll({
+            attributes: [ 'id' ],
+            offset: offset,
+            limit: limit,
+            subQuery: false
+        }).then(function (project, error) {
+                if (!error) {
+                    resolve(project);
+                } else {
+                    reject(error);
+                }
+            }).catch((error) => {
+                console.error('Error', error);
+                reject(new Error("Failed to get projects {{In DAO}}"));
+            });
+    });
 }
 
 function getProjects(userMid, pageNo, limit) {
-    return new Promise(function (resolve, reject) {
-
-        console.log("Offset: ", (parseInt(pageNo, 10) - 1) * parseInt(limit, 10));
-        console.log("Limit: ", parseInt(limit, 10));
-
+    return new Promise((resolve, reject) => {
+        const offset = limit * (pageNo - 1);
+        limit = parseInt(limit);
         Project.findAll({
             attributes: { exclude: ['projectDetails', 'challenges', 'solution', 'benefits', 'executionSummary', 'expertsOfTopic', 'offeringId', 'subVerticalId', 'serviceId', 'accountId', 'verticalId', 'practiceId', 'contractId', 'customerId'] },
             include: [Technology, Tool, Offering, Tag, SubVertical, SubPractice, Account, Vertical, Practice, Contract,
@@ -62,11 +127,11 @@ function getProjects(userMid, pageNo, limit) {
                     required: false
                 }
             ],
-            offset: (parseInt(pageNo, 10) - 1) * parseInt(limit, 10),
-            limit: parseInt(limit, 10),
+            offset: offset,
+            limit: limit,
             subQuery: false
         })
-            .then(function (project, err) {
+            .then((project, err) => {
                 if (!err) {
                     console.log("Projects retrieved{{In DAO}}");
                     resolve(project);

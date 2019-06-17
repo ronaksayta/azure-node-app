@@ -33,6 +33,10 @@ storyRouter.route('/download/:projectId')
 storyRouter.route('/search')
     .get(azureAuthentication, storyController.searchAndFilterProject);
 
+
+storyRouter.route('/ronak')
+    .get(azureAuthentication, storyController.getProjectByPagination);
+
 storyRouter.route('/:projectId')
     .get(azureAuthentication, storyController.getProjectById);
 

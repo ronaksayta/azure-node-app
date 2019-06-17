@@ -13,8 +13,25 @@ var storyController = {
     getSavedStoriesByUser: getSavedStoriesByUser,
     searchAndFilterProject: searchAndFilterProject,
     downloadProject: downloadProject,
+    getProjectByPagination: getProjectByPagination,
     test: test
 };
+
+function getProjectByPagination(req, res) {
+    var pageNo = req.query.pageNo;
+    var limit = req.query.limit;
+    var response = new Response();
+    storyService.getProjectByPagination(req.user.mid, limit, pageNo).then((projects) => {
+        response.data.projects = projects;
+        response.status.statusCode = '200';
+        response.status.message = 'Project retrieved!!';
+        res.status(200).json(response);
+    }).catch((error) => {
+        response.status.statusCode = '500';
+        response.status.message = 'Failed to get project: ' + error.message;
+        res.status(500).json(response);
+    });
+}
 
 
 function test(req, res) {
