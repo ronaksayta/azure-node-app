@@ -9,7 +9,7 @@ var practiceService = {
 }
 
 function addPractice(practice) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         practiceDao.addPractice(practice).then(function (practice) {
             console.log("Practice added! {{In Service}}");
             resolve(practice);
@@ -21,7 +21,7 @@ function addPractice(practice) {
 }
 
 function getPractices() {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         practiceDao.getPractices().then(function (practices) {
             console.log("Practices retrieved! {{In Service}}");
             resolve(practices);
@@ -33,7 +33,7 @@ function getPractices() {
 }
 
 function getPracticeByName(practice) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         practiceDao.getPracticeByName(practice).then(function (practice) {
             console.log("Practice retrieved by name! {{In Service}}");
             resolve(practice);

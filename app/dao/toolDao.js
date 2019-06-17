@@ -8,7 +8,7 @@ var toolDao = {
 }
 
 function getTools() {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         Tool.findAll()
             .then((tools, err) => {
                 if (!err) {
@@ -27,7 +27,7 @@ function getTools() {
 }
 
 function addTools(tools) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         resolve(tools.map(tool => Tool.findOrCreate({ where: { name: tool }, defaults: { name: tool } })
             .spread(async (tools, created) => tools)))
             .catch((error) => {

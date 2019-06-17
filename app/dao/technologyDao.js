@@ -8,7 +8,7 @@ var technologyDao = {
 }
 
 function getTechnologies() {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         Technology.findAll()
             .then((technologies, err) => {
                 if (!err) {
@@ -27,7 +27,7 @@ function getTechnologies() {
 }
 
 function addTechnologiess(technologies) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         resolve(technologies.map(technology => Technology.findOrCreate({ where: { name: technology }, defaults: { name: technology } })
             .spread(async (technologies, created) => technologies)))
             .catch((error) => {

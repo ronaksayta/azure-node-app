@@ -9,7 +9,7 @@ var contractService = {
 }
 
 function addContract(contract) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         contractDao.addContract(contract).then(function (contract) {
             console.log("Contract added! {{In Service}}");
             resolve(contract);
@@ -21,7 +21,7 @@ function addContract(contract) {
 }
 
 function getContractByName(contract) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         contractDao.getContractByName(contract).then(function (contract) {
             console.log("Contract retrieved by name! {{In Service}}");
             resolve(contract);

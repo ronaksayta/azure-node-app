@@ -12,7 +12,7 @@ var tagDao = {
 }
 
 async function getTagCount() {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         Tag.count({
             attributes: ['name'],
             include: [Project],
@@ -35,7 +35,7 @@ async function getTagCount() {
 }
 
 function addTags(tags) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         resolve(tags.map(tag => Tag.findOrCreate({ where: { name: tag }, defaults: { name: tag } })
             .spread(async (tags, created) => tags)))
             .catch((error) => {
@@ -47,7 +47,7 @@ function addTags(tags) {
 }
 
 function getTags() {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         Tag.findAll()
             .then((tags, err) => {
                 if (!err) {

@@ -9,7 +9,7 @@ var subPracticeService = {
 }
 
 function addSubPractice(subPractice, practiceId) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         subPracticeDao.addSubPractice(subPractice, practiceId).then(function (subPractice) {
             console.log("SubPractice added! {{In Service}}");
             resolve(subPractice);
@@ -21,7 +21,7 @@ function addSubPractice(subPractice, practiceId) {
 }
 
 function getSubPractices() {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         subPracticeDao.getSubPractices().then(function (subPractices) {
             console.log("SubPractices retrieved! {{In Service}}");
             resolve(subPractices);
@@ -33,7 +33,7 @@ function getSubPractices() {
 }
 
 function getSubPracticeByName(subPractice, practiceId) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         subPracticeDao.getSubPracticeByName(subPractice, practiceId).then(function (subPractice) {
             console.log("SubPractice retrieved by name! {{In Service}}");
             resolve(subPractice);

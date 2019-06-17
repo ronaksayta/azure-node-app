@@ -10,7 +10,7 @@ var verticalService = {
 }
 
 function addVertical(vertical) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         verticalDao.addVertical(vertical).then(function (vertical) {
             console.log("Vertical added! {{In Service}}");
             resolve(vertical);
@@ -22,7 +22,7 @@ function addVertical(vertical) {
 }
 
 function getVerticals() {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         verticalDao.getVerticals().then(function (verticals) {
             console.log("Verticals retrieved! {{In Service}}");
             resolve(verticals);
@@ -34,7 +34,7 @@ function getVerticals() {
 }
 
 function getVerticalByName(vertical) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         verticalDao.getVerticalByName(vertical).then(function (vertical) {
             console.log("Vertical retrieved by name! {{In Service}}");
             resolve(vertical);

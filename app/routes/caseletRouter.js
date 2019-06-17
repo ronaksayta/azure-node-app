@@ -1,46 +1,46 @@
 const express = require('express');
 
-const storyController = require('../controllers/storyController');
+const caseletController = require('../controllers/caseletController');
 const azureAuthentication = require('../middleware/azureAuthentication');
 
-const storyRouter = express.Router();
+const caseletRouter = express.Router();
 
-storyRouter.route('/')
-    .get(azureAuthentication, storyController.getProjects)
-    .post(azureAuthentication, storyController.addPendingStory);
+caseletRouter.route('/')
+    .get(azureAuthentication, caseletController.getProjects)
+    .post(azureAuthentication, caseletController.addPendingCaselet);
 
-storyRouter.route('/azureAuthentication')
-    .get(azureAuthentication, storyController.test);
+caseletRouter.route('/azureAuthentication')
+    .get(azureAuthentication, caseletController.test);
 
-storyRouter.route('/like')
-    .get(azureAuthentication, storyController.getMostLikedProjects);
+caseletRouter.route('/like')
+    .get(azureAuthentication, caseletController.getMostLikedProjects);
 
-storyRouter.route('/share')
-    .get(azureAuthentication, storyController.getMostSharedProjects);
+caseletRouter.route('/share')
+    .get(azureAuthentication, caseletController.getMostSharedProjects);
 
-storyRouter.route('/like/:projectId')
-    .put(azureAuthentication, storyController.likeProject);
+caseletRouter.route('/like/:projectId')
+    .put(azureAuthentication, caseletController.likeProject);
 
-storyRouter.route('/dislike/:projectId')
-    .put(azureAuthentication, storyController.dislikeProject);
+caseletRouter.route('/dislike/:projectId')
+    .put(azureAuthentication, caseletController.dislikeProject);
 
-storyRouter.route('/share/:projectId')
-    .put(azureAuthentication, storyController.shareProject);
+caseletRouter.route('/share/:projectId')
+    .put(azureAuthentication, caseletController.shareProject);
 
-storyRouter.route('/download/:projectId')
-    .put(azureAuthentication, storyController.downloadProject);
+caseletRouter.route('/download/:projectId')
+    .put(azureAuthentication, caseletController.downloadProject);
 
-storyRouter.route('/search')
-    .get(azureAuthentication, storyController.searchAndFilterProject);
+caseletRouter.route('/search')
+    .get(azureAuthentication, caseletController.searchAndFilterProject);
 
 
-storyRouter.route('/ronak')
-    .get(azureAuthentication, storyController.getProjectByPagination);
+caseletRouter.route('/ronak')
+    .get(azureAuthentication, caseletController.getProjectByPagination);
 
-storyRouter.route('/:projectId')
-    .get(azureAuthentication, storyController.getProjectById);
+caseletRouter.route('/:projectId')
+    .get(azureAuthentication, caseletController.getProjectById);
 
-storyRouter.route('/save/:userMid')
-    .get(azureAuthentication, storyController.getSavedStoriesByUser);
+caseletRouter.route('/save/:userMid')
+    .get(azureAuthentication, caseletController.getSavedStoriesByUser);
 
-module.exports = storyRouter;
+module.exports = caseletRouter;

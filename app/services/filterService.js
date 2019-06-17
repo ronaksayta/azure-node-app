@@ -16,7 +16,7 @@ var filterService = {
 }
 
 function getFilters() {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
 
         const account = accountDao.getAccounts();
         const subVertical = subVerticalDao.getSubVerticals();

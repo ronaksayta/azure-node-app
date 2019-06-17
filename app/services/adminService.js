@@ -1,6 +1,6 @@
 var Promise = require('bluebird');
 
-var storyDao = require('../dao/storyDao');
+var caseletDao = require('../dao/caseletDao');
 var userDao = require('../dao/userDao');
 var accountDao = require('../dao/accountDao');
 var customerDao = require('../dao/customerDao');
@@ -13,22 +13,22 @@ var contractDao = require('../dao/contractDao');
 var tagDao = require('../dao/tagDao');
 var toolDao = require('../dao/toolDao');
 var technologyDao = require('../dao/technologyDao');
-var pendingStoryDao = require('../dao/pendingStoryDao');
+var pendingCaseletDao = require('../dao/pendingCaseletDao');
 
-var storyService = {
+var adminService = {
     addProject: addProject,
     deleteProjectById: deleteProjectById,
     getSumbittedStories: getSumbittedStories,
-    getSumbittedStoryById: getSumbittedStoryById,
+    getSumbittedCaseletById: getSumbittedCaseletById,
     sendFeedback: sendFeedback
 }
 
 function addProject(body, adminMid) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
 
-        pendingStoryDao.getSavedStoriesByUser(body.user.mid)
-            .then((story, err) => {
-                if (story) {
+        pendingCaseletDao.getSavedStoriesByUser(body.user.mid)
+            .then((caselet, err) => {
+                if (caselet) {
 
                     const tags = tagDao.addTags(body.tags);
                     const technologies = technologyDao.addTechnologiess(body.technologies);
@@ -64,12 +64,12 @@ function addProject(body, adminMid) {
                                     b.contractId = values[10].dataValues.id;
                                     b.approvedBy = adminMid;
                                     b.expertsOfTopic = body.expertsOfTopic.join();
-                                    b.submittedTime = story.updatedAt;
+                                    b.submittedTime = caselet.updatedAt;
 
-                                    storyDao.addProject(b, values[0], values[1], values[2])
+                                    caseletDao.addProject(b, values[0], values[1], values[2])
                                         .then(function (projectAdded) {
                                             console.log("Project approved! {{In Service}}");
-                                            pendingStoryDao.deletePendingStory(b.userMid);
+                                            pendingCaseletDao.deletePendingCaselet(b.userMid);
                                             resolve(projectAdded);
                                         }).catch(function (err) {
                                             console.log("Failed to approve project {{In Service}}", err);
@@ -93,8 +93,8 @@ function addProject(body, adminMid) {
 }
 
 function deleteProjectById(projectId) {
-    return new Promise(function (resolve, reject) {
-        storyDao.deleteProjectById(projectId).then(function (deleteResponse) {
+    return new Promise((resolve, reject) => {
+        caseletDao.deleteProjectById(projectId).then(function (deleteResponse) {
             console.log("Project deleted! {{In Service}}");
             resolve(deleteResponse);
         }).catch(function (err) {
@@ -105,8 +105,8 @@ function deleteProjectById(projectId) {
 }
 
 function getSumbittedStories() {
-    return new Promise(function (resolve, reject) {
-        pendingStoryDao.getSumbittedStories()
+    return new Promise((resolve, reject) => {
+        pendingCaseletDao.getSumbittedStories()
             .then(function (project) {
                 console.log("Sumbitted Projects retrieved! {{In Service}}");
                 resolve(project);
@@ -117,9 +117,9 @@ function getSumbittedStories() {
     });
 }
 
-function getSumbittedStoryById(storyId) {
-    return new Promise(function (resolve, reject) {
-        pendingStoryDao.getSumbittedStoryById(storyId)
+function getSumbittedCaseletById(caseletId) {
+    return new Promise((resolve, reject) => {
+        pendingCaseletDao.getSumbittedCaseletById(caseletId)
             .then(function (project) {
                 console.log("Sumbitted Project retrieved by ID! {{In Service}}");
                 resolve(project);
@@ -130,9 +130,9 @@ function getSumbittedStoryById(storyId) {
     });
 }
 
-function sendFeedback(pendingStoryId, message) {
-    return new Promise(function (resolve, reject) {
-        pendingStoryDao.sendFeedback(pendingStoryId, message)
+function sendFeedback(pendingCaseletId, message) {
+    return new Promise((resolve, reject) => {
+        pendingCaseletDao.sendFeedback(pendingCaseletId, message)
             .then(function (project) {
                 console.log("Pending Projects feedback sent! {{In Service}}");
                 resolve(project);
@@ -143,4 +143,4 @@ function sendFeedback(pendingStoryId, message) {
     })
 }
 
-module.exports = storyService;
+module.exports = adminService;

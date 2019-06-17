@@ -9,7 +9,7 @@ var imageService = {
 }
 
 function addImage(image) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         imageDao.addImage(image).then(function (image) {
             console.log("Image added! {{In Service}}");
             resolve(image);
@@ -21,7 +21,7 @@ function addImage(image) {
 }
 
 function getImages() {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         imageDao.getImages().then(function (images) {
             console.log("Images retrieved! {{In Service}}");
             resolve(images);
@@ -33,7 +33,7 @@ function getImages() {
 }
 
 function deleteImageByUrl(imageUrl) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         imageDao.deleteImageByUrl(imageUrl).then(function (deleteResponse) {
             console.log("Image entry deleted! {{In Service}}");
             resolve(deleteResponse);

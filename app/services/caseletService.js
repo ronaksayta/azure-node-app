@@ -3,11 +3,11 @@ var AzureSearch = require('azure-search');
 var config = require('../config/config');
 var mailer = require('../util/mailer');
 
-var storyDao = require('../dao/storyDao');
+var caseletDao = require('../dao/caseletDao');
 var userDao = require('../dao/userDao');
-var pendingStoryDao = require('../dao/pendingStoryDao');
+var pendingCaseletDao = require('../dao/pendingCaseletDao');
 
-var storyService = {
+var caseletService = {
     getProjects: getProjects,
     getProjectById: getProjectById,
     likeProject: likeProject,
@@ -15,7 +15,7 @@ var storyService = {
     shareProject: shareProject,
     getMostLikedProjects: getMostLikedProjects,
     getMostSharedProjects: getMostSharedProjects,
-    addPendingStory: addPendingStory,
+    addPendingCaselet: addPendingCaselet,
     downloadProject: downloadProject,
     getSavedStoriesByUser: getSavedStoriesByUser,
     searchAndFilterProject: searchAndFilterProject,
@@ -24,11 +24,11 @@ var storyService = {
 
 function getProjectByPagination(mid, limit, pageNo) {
     return new Promise((resolve, reject) => {
-        storyDao.getProjectIdByPagination(limit, pageNo)
+        caseletDao.getProjectIdByPagination(limit, pageNo)
         .then((projects) => {
             projectArray = [];
             projects.map(project => projectArray.push(project.id));
-            storyDao.getProjectsByArray(projectArray, mid).then((projects) => {
+            caseletDao.getProjectsByArray(projectArray, mid).then((projects) => {
                 resolve(projects)
             }).catch((error) => {
                 reject(error)
@@ -40,8 +40,8 @@ function getProjectByPagination(mid, limit, pageNo) {
 }
 
 function downloadProject(projectId) {
-    return new Promise(function (resolve, reject) {
-        storyDao.downloadProject(projectId)
+    return new Promise((resolve, reject) => {
+        caseletDao.downloadProject(projectId)
             .then(function (project) {
                 console.log("Project downloaded! {{In Service}}");
                 resolve(project);
@@ -53,8 +53,8 @@ function downloadProject(projectId) {
 }
 
 function getProjects(userMid, pageNo, limit) {
-    return new Promise(function (resolve, reject) {
-        storyDao.getProjects(userMid, pageNo, limit)
+    return new Promise((resolve, reject) => {
+        caseletDao.getProjects(userMid, pageNo, limit)
             .then(function (projects) {
                 var projectLiked = projects.map(project => {
                     if (project.dataValues.likes.length == 0)
@@ -73,14 +73,14 @@ function getProjects(userMid, pageNo, limit) {
     });
 }
 
-function addPendingStory(body, user) {
-    return new Promise(function (resolve, reject) {
+function addPendingCaselet(body, user) {
+    return new Promise((resolve, reject) => {
 
         console.log(user);
 
-        pendingStoryDao.getSavedStoriesByUser(user.mid)
-            .then((story) => {
-                if (story) {
+        pendingCaseletDao.getSavedStoriesByUser(user.mid)
+            .then((caselet) => {
+                if (caselet) {
 
                     let b = body;
                     console.log('Service', b);
@@ -92,12 +92,12 @@ function addPendingStory(body, user) {
                     console.log(b.customerName);
                     b.expertsOfTopic = body.expertsOfTopic.join();
 
-                    pendingStoryDao.updatePendingStory(b, user.mid)
-                        .then((story) => {
-                            console.log("Pending Story updated! {{In Service}}");
-                            resolve(story);
+                    pendingCaseletDao.updatePendingCaselet(b, user.mid)
+                        .then((caselet) => {
+                            console.log("Pending Caselet updated! {{In Service}}");
+                            resolve(caselet);
                         }).catch(function (err) {
-                            console.log("Failed to update pending story {{In Service}}", err);
+                            console.log("Failed to update pending caselet {{In Service}}", err);
                             reject(err);
                         });
                 }
@@ -120,26 +120,26 @@ function addPendingStory(body, user) {
 
                             console.log(b);
 
-                            pendingStoryDao.addPendingStory(b)
+                            pendingCaseletDao.addPendingCaselet(b)
                                 .then(function (projectAdded) {
-                                    console.log("Pending Story added! {{In Service}}");
+                                    console.log("Pending Caselet added! {{In Service}}");
                                     resolve(projectAdded);
                                 }).catch(function (err) {
-                                    console.log("Failed to add pending story {{In Service}}", err);
+                                    console.log("Failed to add pending caselet {{In Service}}", err);
                                     reject(err);
                                 });
                         });
                 }
             }).catch(function (err) {
-                console.log("Failed to add/update pending story {{In Service}}", err);
+                console.log("Failed to add/update pending caselet {{In Service}}", err);
                 reject(err);
             });
     });
 }
 
 function getSavedStoriesByUser(userMid) {
-    return new Promise(function (resolve, reject) {
-        pendingStoryDao.getSavedStoriesByUser(userMid)
+    return new Promise((resolve, reject) => {
+        pendingCaseletDao.getSavedStoriesByUser(userMid)
             .then(function (project) {
                 console.log("Saved Project retrieved! {{In Service}}");
                 resolve(project);
@@ -151,8 +151,8 @@ function getSavedStoriesByUser(userMid) {
 }
 
 function getProjectById(projectId) {
-    return new Promise(function (resolve, reject) {
-        storyDao.getProjectById(projectId)
+    return new Promise((resolve, reject) => {
+        caseletDao.getProjectById(projectId)
             .then(function (project) {
                 console.log("Project retrieved! {{In Service}}");
                 resolve(project);
@@ -164,17 +164,17 @@ function getProjectById(projectId) {
 }
 
 function likeProject(projectId, user) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
 
-        const projects = storyDao.getProjectByProjectId(projectId);
+        const projects = caseletDao.getProjectByProjectId(projectId);
         const users = userDao.addUser(user);
-        const likedProject = storyDao.getLikedProject(projectId, user.mid);
+        const likedProject = caseletDao.getLikedProject(projectId, user.mid);
 
         Promise.all([likedProject, projects, users])
             .then((values) => {
                 console.log("Liked Project: ", values[0].likes.length);
                 if (values[0].likes.length == 0) {
-                    storyDao.likeProject(values[1], values[2]).then(function (project) {
+                    caseletDao.likeProject(values[1], values[2]).then(function (project) {
                         console.log("Project liked! {{In Service}}");
                         resolve(project);
                     }).catch(function (err) {
@@ -183,7 +183,7 @@ function likeProject(projectId, user) {
                     });
                 }                 
                 else if (values[0].likes.length == 1) {
-                    storyDao.dislikeProject(values[0], values[2]).then(function (project) {
+                    caseletDao.dislikeProject(values[0], values[2]).then(function (project) {
                         console.log("Project disliked! {{In Service}}");
                         resolve({
                             message : 'Project diskliked!'
@@ -202,9 +202,9 @@ function likeProject(projectId, user) {
 }
 
 function dislikeProject(projectId, user) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
 
-        const projects = storyDao.getLikedProject(projectId, user.mid);
+        const projects = caseletDao.getLikedProject(projectId, user.mid);
         const users = userDao.addUser(user);
 
         Promise.all([projects, users])
@@ -212,7 +212,7 @@ function dislikeProject(projectId, user) {
                 console.log("Liked Project: ", values[0].likes.length);
 
                 if (values[0].likes.length != 0) {
-                    storyDao.dislikeProject(values[0], values[1]).then(function (project) {
+                    caseletDao.dislikeProject(values[0], values[1]).then(function (project) {
                         console.log("Project disliked! {{In Service}}");
                         resolve(project);
                     }).catch(function (err) {
@@ -233,7 +233,7 @@ function dislikeProject(projectId, user) {
 }
 
 function shareProject(projectId, from, body) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
 
         var to = body.to;
 
@@ -260,7 +260,7 @@ function shareProject(projectId, from, body) {
 
         Promise.all(mails)
             .then((values) => {
-                storyDao.shareProject(projectId, to.length)
+                caseletDao.shareProject(projectId, to.length)
                     .then(function (project) {
                         console.log("Project shared! {{In Service}}");
                         resolve(project);
@@ -276,8 +276,8 @@ function shareProject(projectId, from, body) {
 }
 
 function getMostLikedProjects() {
-    return new Promise(function (resolve, reject) {
-        storyDao.getMostLikedProjects().then(function (project) {
+    return new Promise((resolve, reject) => {
+        caseletDao.getMostLikedProjects().then(function (project) {
             console.log("Most Liked projects retrieved! {{In Service}}");
             resolve(project);
         }).catch(function (err) {
@@ -288,8 +288,8 @@ function getMostLikedProjects() {
 }
 
 function getMostSharedProjects() {
-    return new Promise(function (resolve, reject) {
-        storyDao.getMostSharedProjects().then(function (project) {
+    return new Promise((resolve, reject) => {
+        caseletDao.getMostSharedProjects().then(function (project) {
             console.log("Most shared projects retrieved! {{In Service}}");
             resolve(project);
         }).catch(function (err) {
@@ -336,12 +336,12 @@ function searchAndFilterProject(searchValue, filterValue, pageNo, limit, userMid
 
                 console.log("Tech: ", tech);
                 console.log("Tool: ", tool);
-                storyDao.getSearchedProjects(searchedIds, tech, tool)
+                caseletDao.getSearchedProjects(searchedIds, tech, tool)
                     .then(function (project) {
                         const ids = project.map(res => parseInt(res.dataValues.id));
                         console.log(ids);
 
-                        storyDao.getResults(ids, userMid, pageNo, limit)
+                        caseletDao.getResults(ids, userMid, pageNo, limit)
                             .then((result) => {
 
                                 var caselets = result.map(res => {
@@ -380,4 +380,4 @@ function searchAndFilterProject(searchValue, filterValue, pageNo, limit, userMid
     });
 }
 
-module.exports = storyService;
+module.exports = caseletService;

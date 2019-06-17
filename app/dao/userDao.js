@@ -8,7 +8,7 @@ var userDao = {
 }
 
 function addUser(user) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         User.findOrCreate({ where: { mid: user.mid, name: user.name }, default: { mid: user.mid, name: user.name } })
             .spread((user, created) => {
                 resolve(user);
@@ -21,7 +21,7 @@ function addUser(user) {
 }
 
 function getUserByMid(userMid) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         User.findByPk(userMid)
             .then((user, err) => {
                 if (!err) {

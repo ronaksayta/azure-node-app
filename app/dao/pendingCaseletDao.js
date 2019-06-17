@@ -1,21 +1,21 @@
 var Promise = require('bluebird');
 
-const { PendingStory, User } = require('../config/sequelize');
+const { PendingCaselet, User } = require('../config/sequelize');
 
-var projectDetailDao = {
-    addPendingStory: addPendingStory,
-    updatePendingStory: updatePendingStory,
-    deletePendingStory: deletePendingStory,
+var pendingCaseletDao = {
+    addPendingCaselet: addPendingCaselet,
+    updatePendingCaselet: updatePendingCaselet,
+    deletePendingCaselet: deletePendingCaselet,
     getSumbittedStories: getSumbittedStories,
     getSavedStoriesByUser: getSavedStoriesByUser,
-    getSumbittedStoryById: getSumbittedStoryById,
+    getSumbittedCaseletById: getSumbittedCaseletById,
     sendFeedback: sendFeedback
 }
 
 function getSumbittedStories() {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
 
-        PendingStory.findAll({
+        PendingCaselet.findAll({
             where: { submit: true },
             include: [
                 {
@@ -25,11 +25,11 @@ function getSumbittedStories() {
             ],
             attributes: ['id', 'title'],
         })
-            .then(function (pendingStory, err) {
+            .then(function (pendingCaselet, err) {
                 if (!err) {
-                    console.info(pendingStory);
+                    console.info(pendingCaselet);
                     console.log("Sumbitted Projects retrieved{{In DAO}}");
-                    resolve(pendingStory);
+                    resolve(pendingCaselet);
                 } else {
                     console.log("Failed to get submitted projects {{In DAO}} ", err);
                     reject(new Error("Failed to get submitted projects {{In DAO}}"));
@@ -43,8 +43,8 @@ function getSumbittedStories() {
 }
 
 function getSavedStoriesByUser(userMid) {
-    return new Promise(function (resolve, reject) {
-        PendingStory.findOne({
+    return new Promise((resolve, reject) => {
+        PendingCaselet.findOne({
             where: { userMid: userMid },
             include: [
                 {
@@ -53,10 +53,10 @@ function getSavedStoriesByUser(userMid) {
                 }
             ]
         })
-            .then(function (pendingStory, err) {
+            .then(function (pendingCaselet, err) {
                 if (!err) {
                     console.log("Saved Projects retrieved by User {{In DAO}}");
-                    resolve(pendingStory);
+                    resolve(pendingCaselet);
                 } else {
                     console.log("Failed to get saved projects by user {{In DAO}} ", err);
                     reject(new Error("Failed to get saved projects by user {{In DAO}}"));
@@ -69,10 +69,10 @@ function getSavedStoriesByUser(userMid) {
     });
 }
 
-function getSumbittedStoryById(storyId) {
-    return new Promise(function (resolve, reject) {
-        PendingStory.findOne({
-            where: { id: storyId, submit: true },
+function getSumbittedCaseletById(caseletId) {
+    return new Promise((resolve, reject) => {
+        PendingCaselet.findOne({
+            where: { id: caseletId, submit: true },
             include: [
                 {
                     model: User,
@@ -80,10 +80,10 @@ function getSumbittedStoryById(storyId) {
                 }
             ]
         })
-            .then(function (pendingStory, err) {
+            .then(function (pendingCaselet, err) {
                 if (!err) {
                     console.log("Saved Projects retrieved by Id {{In DAO}}");
-                    resolve(pendingStory);
+                    resolve(pendingCaselet);
                 } else {
                     console.log("Failed to get saved projects by Id {{In DAO}} ", err);
                     reject(new Error("Failed to get saved projects by Id {{In DAO}}"));
@@ -96,10 +96,10 @@ function getSumbittedStoryById(storyId) {
     });
 }
 
-function addPendingStory(pendingStory) {
-    return new Promise(function (resolve, reject) {
-        PendingStory.create(pendingStory)
-            .then(async (story) => PendingStory.findByPk(story.id,
+function addPendingCaselet(pendingCaselet) {
+    return new Promise((resolve, reject) => {
+        PendingCaselet.create(pendingCaselet)
+            .then(async (caselet) => PendingCaselet.findByPk(caselet.id,
                 {
                     include: [
                         {
@@ -109,26 +109,26 @@ function addPendingStory(pendingStory) {
                     ]
                 }
             ))
-            .then((story, err) => {
+            .then((caselet, err) => {
                 if (!err) {
-                    console.log("New pending story added");
-                    resolve(story);
+                    console.log("New pending caselet added");
+                    resolve(caselet);
                 } else {
-                    console.log("Failed to add pending story {{In DAO}} ", err);
-                    reject(new Error("Failed to add pending story {{In DAO}}"));
+                    console.log("Failed to add pending caselet {{In DAO}} ", err);
+                    reject(new Error("Failed to add pending caselet {{In DAO}}"));
                 }
             }).catch((error) => {
-                console.log("Failed to add pending story {{In DAO}}");
+                console.log("Failed to add pending caselet {{In DAO}}");
                 console.log('Error', error);
-                reject(new Error("Failed to add pending story {{In DAO}}"));
+                reject(new Error("Failed to add pending caselet {{In DAO}}"));
             });
     })
 }
 
-function updatePendingStory(pendingStory, userMid) {
-    return new Promise(function (resolve, reject) {
-        PendingStory.update(pendingStory, { where: { userMid: userMid } })
-            .then(async () => PendingStory.findOne({ where: { title: pendingStory.title } },
+function updatePendingCaselet(pendingCaselet, userMid) {
+    return new Promise((resolve, reject) => {
+        PendingCaselet.update(pendingCaselet, { where: { userMid: userMid } })
+            .then(async () => PendingCaselet.findOne({ where: { title: pendingCaselet.title } },
                 {
                     include: [
                         {
@@ -138,45 +138,45 @@ function updatePendingStory(pendingStory, userMid) {
                     ]
                 }
             ))
-            .then((pendingStory, err) => {
+            .then((pendingCaselet, err) => {
                 if (!err) {
-                    console.log("Pending Story updated {{In DAO}}");
-                    resolve(pendingStory);
+                    console.log("Pending Caselet updated {{In DAO}}");
+                    resolve(pendingCaselet);
                 } else {
-                    console.log("Failed to update pending story{{In DAO}} ", err);
-                    reject(new Error("Failed to update pending story{{In DAO}}"));
+                    console.log("Failed to update pending caselet{{In DAO}} ", err);
+                    reject(new Error("Failed to update pending caselet{{In DAO}}"));
                 }
             }).catch((error) => {
-                console.log("Failed to update pending story{{In DAO}}")
+                console.log("Failed to update pending caselet{{In DAO}}")
                 console.log('Error', error);
-                reject(new Error("Failed to update pending story{{In DAO}}"));
+                reject(new Error("Failed to update pending caselet{{In DAO}}"));
             });
     });
 }
 
-function deletePendingStory(userMid) {
-    return new Promise(function (resolve, reject) {
-        PendingStory.destroy({ where: { userMid: userMid } })
+function deletePendingCaselet(userMid) {
+    return new Promise((resolve, reject) => {
+        PendingCaselet.destroy({ where: { userMid: userMid } })
             .then(function (deleteResponse, err) {
                 if (!err) {
-                    console.log("Pending story deleted {{In DAO}}");
+                    console.log("Pending caselet deleted {{In DAO}}");
                     resolve(deleteResponse);
                 } else {
-                    console.log("Failed to delete  pending story {{In DAO}} ", err);
-                    reject(new Error("Failed to delete  pending story {{In DAO}}"));
+                    console.log("Failed to delete  pending caselet {{In DAO}} ", err);
+                    reject(new Error("Failed to delete  pending caselet {{In DAO}}"));
                 }
             }).catch((error) => {
-                console.log("Failed to delete  pending story {{In DAO}}");
+                console.log("Failed to delete  pending caselet {{In DAO}}");
                 console.log('Error', error);
-                reject(new Error("Failed to delete  pending story {{In DAO}}"));
+                reject(new Error("Failed to delete  pending caselet {{In DAO}}"));
             });
     });
 }
 
-function sendFeedback(pendingStoryId, message) {
-    return new Promise(function (resolve, reject) {
-        PendingStory.update({ adminComment: message, submit: false }, { where: { id: pendingStoryId } })
-            .then(async () => PendingStory.findOne({ where: { id: pendingStoryId } },
+function sendFeedback(pendingCaseletId, message) {
+    return new Promise((resolve, reject) => {
+        PendingCaselet.update({ adminComment: message, submit: false }, { where: { id: pendingCaseletId } })
+            .then(async () => PendingCaselet.findOne({ where: { id: pendingCaseletId } },
                 {
                     include: [
                         {
@@ -186,20 +186,20 @@ function sendFeedback(pendingStoryId, message) {
                     ]
                 }
             ))
-            .then((pendingStory, err) => {
+            .then((pendingCaselet, err) => {
                 if (!err) {
-                    console.log("Pending Story feedback sent {{In DAO}}");
-                    resolve(pendingStory);
+                    console.log("Pending Caselet feedback sent {{In DAO}}");
+                    resolve(pendingCaselet);
                 } else {
-                    console.log("Failed to send pending story feedback {{In DAO}} ", err);
-                    reject(new Error("Failed to send pending story feedback {{In DAO}}"));
+                    console.log("Failed to send pending caselet feedback {{In DAO}} ", err);
+                    reject(new Error("Failed to send pending caselet feedback {{In DAO}}"));
                 }
             }).catch((error) => {
-                console.log("Failed to send pending story feedback {{In DAO}}")
+                console.log("Failed to send pending caselet feedback {{In DAO}}")
                 console.log('Error', error);
-                reject(new Error("Failed to send pending story feedback {{In DAO}}"));
+                reject(new Error("Failed to send pending caselet feedback {{In DAO}}"));
             });
     })
 }
 
-module.exports = projectDetailDao;
+module.exports = pendingCaseletDao;

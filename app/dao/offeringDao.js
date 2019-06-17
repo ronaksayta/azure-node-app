@@ -9,7 +9,7 @@ var offeringDao = {
 }
 
 function getOfferings() {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         Offering.findAll()
             .then((offerings, err) => {
                 if (!err) {
@@ -28,7 +28,7 @@ function getOfferings() {
 }
 
 function addOffering(offering) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
 
         Offering.findOrCreate({ where: { name: offering } })
             .spread((offering, created) => {
@@ -42,7 +42,7 @@ function addOffering(offering) {
 }
 
 function getOfferingByName(offering) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         Offering.findOne({ where: { name: offering } })
             .then((offering, err) => {
                 if (!err) {

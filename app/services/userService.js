@@ -9,7 +9,7 @@ var userService = {
 }
 
 function addUser(user) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         userDao.addUser(user).then(function (user) {
             console.log("User added! {{In Service}}");
             resolve(user);
@@ -21,7 +21,7 @@ function addUser(user) {
 }
 
 function getUserByMid(userMid) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         userDao.getUserByMid(userMid).then(function (user) {
             console.log("User retrieved by MID! {{In Service}}");
             resolve(user);

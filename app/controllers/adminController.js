@@ -5,7 +5,7 @@ var adminController = {
     addProject: addProject,
     deleteProjectById: deleteProjectById,
     getSumbittedStories: getSumbittedStories,
-    getSumbittedStoryById: getSumbittedStoryById,
+    getSumbittedCaseletById: getSumbittedCaseletById,
     sendFeedback: sendFeedback
 }
 
@@ -58,12 +58,12 @@ function getSumbittedStories(req, res) {
     });
 }
 
-function getSumbittedStoryById(req, res) {
+function getSumbittedCaseletById(req, res) {
     var response = new Response();
 
     var projectId = req.params.projectId;
 
-    adminService.getSumbittedStoryById(projectId)
+    adminService.getSumbittedCaseletById(projectId)
         .then(function (project) {
             response.data.project = project;
             response.status.statusCode = '200';
@@ -80,10 +80,10 @@ function getSumbittedStoryById(req, res) {
 function sendFeedback(req, res) {
     var response = new Response();
 
-    var pendingStoryId = req.params.projectId;
+    var pendingCaseletId = req.params.projectId;
     var message = req.body.message;
 
-    adminService.sendFeedback(pendingStoryId, message)
+    adminService.sendFeedback(pendingCaseletId, message)
         .then(function (project) {
             response.data.project = project;
             response.status.statusCode = '200';

@@ -10,7 +10,7 @@ var offeringService = {
 }
 
 function addOffering(offering) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         offeringDao.addOffering(offering).then(function (offering) {
             console.log("Offering added! {{In Service}}");
             resolve(offering);
@@ -22,7 +22,7 @@ function addOffering(offering) {
 }
 
 function getOfferings() {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         offeringDao.getOfferings().then(function (offerings) {
             console.log("Offerings retrieved! {{In Service}}");
             resolve(offerings);
@@ -34,7 +34,7 @@ function getOfferings() {
 }
 
 function getOfferingByName(offering) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         offeringDao.getOfferingByName(offering).then(function (offering) {
             console.log("Offering retrieved by name! {{In Service}}");
             resolve(offering);

@@ -9,7 +9,7 @@ var verticalDao = {
 }
 
 function getVerticals() {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         Vertical.findAll()
             .then((vertical, err) => {
                 if (!err) {
@@ -28,7 +28,7 @@ function getVerticals() {
 }
 
 function addVertical(vertical) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
 
         Vertical.findOrCreate({ where: { name: vertical } })
             .spread((vertical, created) => {
@@ -42,7 +42,7 @@ function addVertical(vertical) {
 }
 
 function getVerticalByName(vertical) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         Vertical.findOne({ where: { name: vertical } })
             .then((vertical, err) => {
                 if (!err) {

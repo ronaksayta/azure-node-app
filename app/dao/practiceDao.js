@@ -9,7 +9,7 @@ var practiceDao = {
 }
 
 function getPractices() {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         Practice.findAll()
             .then((practices, err) => {
                 if (!err) {
@@ -28,7 +28,7 @@ function getPractices() {
 }
 
 function addPractice(practice) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
 
         Practice.findOrCreate({ where: { name: practice } })
             .spread((practice, created) => {
@@ -42,7 +42,7 @@ function addPractice(practice) {
 }
 
 function getPracticeByName(practice) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         Practice.findOne({ where: { name: practice } })
             .then((practice, err) => {
                 if (!err) {

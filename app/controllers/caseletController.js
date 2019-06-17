@@ -1,7 +1,7 @@
 var Response = require("../util/response");
-var storyService = require('../services/storyService');
+var caseletService = require('../services/caseletService');
 
-var storyController = {
+var caseletController = {
     getProjects: getProjects,
     getProjectById: getProjectById,
     likeProject: likeProject,
@@ -9,7 +9,7 @@ var storyController = {
     shareProject: shareProject,
     getMostLikedProjects: getMostLikedProjects,
     getMostSharedProjects: getMostSharedProjects,
-    addPendingStory: addPendingStory,
+    addPendingCaselet: addPendingCaselet,
     getSavedStoriesByUser: getSavedStoriesByUser,
     searchAndFilterProject: searchAndFilterProject,
     downloadProject: downloadProject,
@@ -21,7 +21,7 @@ function getProjectByPagination(req, res) {
     var pageNo = req.query.pageNo;
     var limit = req.query.limit;
     var response = new Response();
-    storyService.getProjectByPagination(req.user.mid, limit, pageNo).then((projects) => {
+    caseletService.getProjectByPagination(req.user.mid, limit, pageNo).then((projects) => {
         response.data.projects = projects;
         response.status.statusCode = '200';
         response.status.message = 'Project retrieved!!';
@@ -50,7 +50,7 @@ function searchAndFilterProject(req, res) {
     var technologies = req.query.technologies;
     var tools = req.query.tools;
     
-    storyService.searchAndFilterProject(searchData, filterData, pageNo, limit, req.user.mid, technologies, tools)
+    caseletService.searchAndFilterProject(searchData, filterData, pageNo, limit, req.user.mid, technologies, tools)
         .then((searchResults) => {
         response.data.projects = searchResults;
         response.status.statusCode = '200';
@@ -68,7 +68,7 @@ function downloadProject(req, res) {
 
     var projectId = req.params.projectId;
 
-    storyService.downloadProject(projectId).then(function (project) {
+    caseletService.downloadProject(projectId).then(function (project) {
         response.data.project = project;
         response.status.statusCode = '200';
         response.status.message = 'Project downloaded successfully!!';
@@ -86,7 +86,7 @@ function getProjects(req, res) {
     var pageNo = req.query.pageNo;
     var limit = req.query.limit;
 
-    storyService.getProjects(req.user.mid, pageNo, limit).then(function (projects) {
+    caseletService.getProjects(req.user.mid, pageNo, limit).then(function (projects) {
         response.data.projects = projects;
         response.status.statusCode = '500';
         response.status.message = 'Project retrieved!!';
@@ -98,13 +98,13 @@ function getProjects(req, res) {
     });
 }
 
-function addPendingStory(req, res) {
+function addPendingCaselet(req, res) {
     console.log('Reached');
     var response = new Response();
 
     var body = req.body;
 
-    storyService.addPendingStory(body, req.user).then(function (projectAdded) {
+    caseletService.addPendingCaselet(body, req.user).then(function (projectAdded) {
         response.data.project = projectAdded;
         response.status.statusCode = '200';
         response.status.message = 'Project added successfully!!';
@@ -120,7 +120,7 @@ function getSavedStoriesByUser(req, res) {
     var response = new Response();
     var userMid = req.params.userMid;
 
-    storyService.getSavedStoriesByUser(userMid).then(function (project) {
+    caseletService.getSavedStoriesByUser(userMid).then(function (project) {
         response.data.project = project;
         response.status.statusCode = '200';
         response.status.message = 'Saved Project retrieved by User successfully!!';
@@ -136,7 +136,7 @@ function getProjectById(req, res) {
     var response = new Response();
     var projectId = req.params.projectId;
 
-    storyService.getProjectById(projectId).then(function (project) {
+    caseletService.getProjectById(projectId).then(function (project) {
         response.data.project = project;
         response.status.statusCode = '200';
         response.status.message = 'Project retrieved by ID successfully!!';
@@ -152,7 +152,7 @@ function likeProject(req, res) {
     var response = new Response();
     var projectId = req.params.projectId;
 
-    storyService.likeProject(projectId, req.user).then(function (project) {
+    caseletService.likeProject(projectId, req.user).then(function (project) {
         response.data.project = project;
         response.status.statusCode = '200';
         response.status.message = 'Project liked successfully!!';
@@ -168,7 +168,7 @@ function dislikeProject(req, res) {
     var response = new Response();
     var projectId = req.params.projectId;
 
-    storyService.dislikeProject(projectId, req.user).then(function (project) {
+    caseletService.dislikeProject(projectId, req.user).then(function (project) {
         response.data.project = project;
         response.status.statusCode = '200';
         response.status.message = 'Project liked successfully!!';
@@ -186,7 +186,7 @@ function shareProject(req, res) {
     var projectId = req.params.projectId;
     var body = req.body;
 
-    storyService.shareProject(projectId, req.user, body).then(function (project) {
+    caseletService.shareProject(projectId, req.user, body).then(function (project) {
         response.data.project = project;
         response.status.statusCode = '200';
         response.status.message = 'Project shared successfully!!';
@@ -201,7 +201,7 @@ function shareProject(req, res) {
 function getMostLikedProjects(req, res) {
     var response = new Response();
 
-    storyService.getMostLikedProjects().then(function (projects) {
+    caseletService.getMostLikedProjects().then(function (projects) {
         response.data.projects = projects;
         response.status.statusCode = '200';
         response.status.message = 'Most Liked projects retrieved!!';
@@ -216,7 +216,7 @@ function getMostLikedProjects(req, res) {
 function getMostSharedProjects(req, res) {
     var response = new Response();
 
-    storyService.getMostSharedProjects().then(function (projects) {
+    caseletService.getMostSharedProjects().then(function (projects) {
         response.data.projects = projects;
         response.status.statusCode = '200';
         response.status.message = 'Most shared projects retrieved!!';
@@ -228,4 +228,4 @@ function getMostSharedProjects(req, res) {
     });
 }
 
-module.exports = storyController;
+module.exports = caseletController;

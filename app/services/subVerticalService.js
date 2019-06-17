@@ -10,7 +10,7 @@ var subVerticalService = {
 }
 
 function addSubVertical(subVertical) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         subVerticalDao.addSubVertical(subVertical).then(function (subVertical) {
             console.log("SubVertical added! {{In Service}}");
             resolve(subVertical);
@@ -22,7 +22,7 @@ function addSubVertical(subVertical) {
 }
 
 function getSubVerticals() {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         subVerticalDao.getSubVerticals().then(function (subVerticals) {
             console.log("SubVerticals retrieved! {{In Service}}");
             resolve(subVerticals);
@@ -34,7 +34,7 @@ function getSubVerticals() {
 }
 
 function getSubVerticalByName(subVertical) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         subVerticalDao.getSubVerticalByName(subVertical).then(function (subVertical) {
             console.log("SubVertical retrieved by name! {{In Service}}");
             resolve(subVertical);

@@ -15,7 +15,7 @@ var VerticalModel = require('../models/vertical');
 var PracticeModel = require('../models/practice');
 var ContractModel = require('../models/contract');
 var CustomerModel = require('../models/customer');
-var PendingStoryModel = require('../models/pendingStory');
+var PendingCaseletModel = require('../models/pendingCaselet');
 var ImageModel = require('../models/image');
 
 const sequelize = new Sequelize(config.database, config.user, config.password, {
@@ -62,7 +62,7 @@ const Tag = TagModel(sequelize, Sequelize);
 const Tool = ToolModel(sequelize, Sequelize);
 const Technology = TechnologyModel(sequelize, Sequelize);
 const Project = ProjectModel(sequelize, Sequelize);
-const PendingStory = PendingStoryModel(sequelize, Sequelize);
+const PendingCaselet = PendingCaseletModel(sequelize, Sequelize);
 const Image = ImageModel(sequelize, Sequelize);
 
 SubPractice.belongsTo(Practice, { foreignKey: 'practiceId', underscored: true });
@@ -81,7 +81,7 @@ Project.belongsTo(Vertical, { foreignKey: 'verticalId', underscored: true });
 Project.belongsTo(Practice, { foreignKey: 'practiceId', underscored: true });
 Project.belongsTo(Contract, { foreignKey: 'contractId', underscored: true });
 Project.belongsTo(Customer, { foreignKey: 'customerId', underscored: true });
-PendingStory.belongsTo(User, { foreignKey: 'userMid', underscored: true });
+PendingCaselet.belongsTo(User, { foreignKey: 'userMid', underscored: true });
 Project.belongsToMany(User, { through: ProjectLikes, as: 'likes', unique: false, foreignKey: 'projectCaseletId' });
 User.belongsToMany(Project, { through: ProjectLikes, as: 'likes', unique: false, foreignKey: 'userMid' });
 
@@ -110,7 +110,7 @@ module.exports = {
     Contract,
     Customer,
     Project,
-    PendingStory,
+    PendingCaselet,
     Image,
     createTables
 };

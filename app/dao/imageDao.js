@@ -9,7 +9,7 @@ var imageDao = {
 }
 
 function getImages() {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         Image.findAll()
             .then((images, err) => {
                 if (!err) {
@@ -28,7 +28,7 @@ function getImages() {
 }
 
 function addImage(image) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         console.log(image);
         Image.findOrCreate({ where: { name: image.name, url: image.url } })
             .spread((image, created) => {
@@ -40,7 +40,7 @@ function addImage(image) {
 }
 
 function deleteImageByUrl(imageUrl) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         Image.destroy({
             where: { url: imageUrl }
         })

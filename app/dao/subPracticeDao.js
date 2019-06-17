@@ -9,7 +9,7 @@ var subPracticeDao = {
 }
 
 function getSubPractices() {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         SubPractice.findAll({ include: [Practice] })
             .then((subPractices, err) => {
                 if (!err) {
@@ -28,7 +28,7 @@ function getSubPractices() {
 }
 
 function addSubPractice(subPractice, practiceId) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
 
         SubPractice.findOrCreate({ where: { name: subPractice, practiceId: practiceId } })
             .spread((subPractice, created) => {
@@ -42,7 +42,7 @@ function addSubPractice(subPractice, practiceId) {
 }
 
 function getSubPracticeByName(subPractice, practiceId) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         SubPractice.findOne({ where: { name: subPractice, practiceId:practiceId }, include: [Practice] })
             .then((subPractice, err) => {
                 if (!err) {

@@ -18,7 +18,7 @@ const {
     Project
 } = require('../config/sequelize');
 
-var storyDao = {
+var caseletDao = {
     getProjects: getProjects,
     getResults: getResults,
     getSearchedProjects: getSearchedProjects,
@@ -82,7 +82,7 @@ function getProjectsByArray(projects, userMid) {
 }
 
 function getProjectIdByPagination(limit, pageNo) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         const offset = limit * (pageNo - 1);
         console.log('Reached!');
         limit = parseInt(limit);
@@ -148,7 +148,7 @@ function getProjects(userMid, pageNo, limit) {
 }
 
 function getSearchedProjects(projectIds, technologies, tools) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
 
         var Technologies;
         var Tools;
@@ -208,7 +208,7 @@ function getSearchedProjects(projectIds, technologies, tools) {
 
 function getProjectByTagName(tagName) {
     console.log('works');
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
 
         Project.findAll({
             attributes: ['id'],
@@ -236,7 +236,7 @@ function getProjectByTagName(tagName) {
 }
 
 function getResults(projectIds, userMid, pageNo, limit) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
 
         Project.findAll({
             where: {
@@ -283,7 +283,7 @@ function getResults(projectIds, userMid, pageNo, limit) {
 }
 
 function addProject(body, tags, technologies, tools) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         Project.create(body)
             .then(async (project) => Promise.all(tags).then(storedTags => project.addTags(storedTags)).then(() => project))
             .then(async (project) => Promise.all(technologies).then(storedTechnologies => project.addTechnologies(storedTechnologies)).then(() => project))
@@ -314,7 +314,7 @@ function addProject(body, tags, technologies, tools) {
 }
 
 function getProjectById(projectId) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         Project.findByPk(projectId, {
             include: [Technology, Tool, Offering, Tag, SubVertical, SubPractice, Account, Vertical, Practice, Contract, Customer,
                 {
@@ -350,7 +350,7 @@ function getProjectById(projectId) {
 }
 
 function getProjectByProjectId(projectId) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         Project.findByPk(projectId, {
             attributes: ['id', 'title']
         })
@@ -373,7 +373,7 @@ function getProjectByProjectId(projectId) {
 
 
 function likeProject(project, user) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         user.addLike(project)
             .then(async () => {
                 project.increment('like')
@@ -399,7 +399,7 @@ function likeProject(project, user) {
 }
 
 function getLikedProject(projectId, userMid) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
 
         Project.findByPk(projectId, {
             attributes: ['id', 'title'],
@@ -427,7 +427,7 @@ function getLikedProject(projectId, userMid) {
 }
 
 function dislikeProject(project, user) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         user.removeLike(project)
             .then(async () => {
                 project.decrement('like')
@@ -453,7 +453,7 @@ function dislikeProject(project, user) {
 }
 
 function shareProject(projectId, count) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
 
         Project.increment('share', { by: count, where: { id: projectId } })
             .then(async () => Project.findByPk(projectId, {
@@ -483,7 +483,7 @@ function shareProject(projectId, count) {
 }
 
 function downloadProject(projectId) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
 
         Project.increment('download', { where: { id: projectId } })
             .then(async () => Project.findByPk(projectId, {
@@ -513,7 +513,7 @@ function downloadProject(projectId) {
 }
 
 function getMostLikedProjects() {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         Project.findAll({
             order: [["like", "DESC"]],
             limit: 3,
@@ -543,7 +543,7 @@ function getMostLikedProjects() {
 }
 
 function getMostSharedProjects() {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         Project.findAll({
             order: [["share", "DESC"]],
             limit: 3,
@@ -573,7 +573,7 @@ function getMostSharedProjects() {
 }
 
 function getMostDownloadededProjects() {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         Project.findAll({
             order: [["download", "DESC"]],
             limit: 3,
@@ -603,7 +603,7 @@ function getMostDownloadededProjects() {
 }
 
 function deleteProjectById(projectId) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         Project.destroy({
             where: { id: projectId }
         })
@@ -623,4 +623,4 @@ function deleteProjectById(projectId) {
     });
 }
 
-module.exports = storyDao;
+module.exports = caseletDao;

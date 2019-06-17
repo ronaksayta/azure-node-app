@@ -1,6 +1,6 @@
 var Promise = require('bluebird');
 
-var storyDao = require('../dao/storyDao');
+var caseletDao = require('../dao/caseletDao');
 var tagDao = require('../dao/tagDao');
 
 var tagService = {
@@ -9,7 +9,7 @@ var tagService = {
 }
 
 function getTagCount() {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         tagDao.getTagCount().then(function (tags) {
             console.log("Tag Count retrieved! {{In Service}}");
             resolve(tags);
@@ -21,13 +21,13 @@ function getTagCount() {
 }
 
 function getProjectByTagName(tag, userMid, pageNo, limit) {
-    return new Promise(function (resolve, reject) {
-        storyDao.getProjectByTagName(tag)
+    return new Promise((resolve, reject) => {
+        caseletDao.getProjectByTagName(tag)
             .then((project) => {
                 const id = project.map(res => parseInt(res.dataValues.id));
                 console.log(id);
 
-                storyDao.getResults(id, userMid, pageNo, limit)
+                caseletDao.getResults(id, userMid, pageNo, limit)
                     .then((result) => {
                         console.log("Projects retrieved! {{In Service}}");
                         resolve(result);

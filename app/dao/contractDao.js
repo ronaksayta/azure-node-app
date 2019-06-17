@@ -9,7 +9,7 @@ var contractDao = {
 }
 
 function addContract(contract) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         Contract.findOrCreate({ where: { name: contract } })
             .then((contract, created) => {
                 resolve(contract);
@@ -21,7 +21,7 @@ function addContract(contract) {
 }
 
 function getContractByName(contract) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         Contract.findOne({ where: { name: contract } })
             .then((contract, error) => {
                 if (!error) {
@@ -37,7 +37,7 @@ function getContractByName(contract) {
 }
 
 function getContracts() {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         Contract.findAll()
             .then((contract, error) => {
                 if (!error) {

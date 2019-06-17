@@ -4,7 +4,7 @@ var bodyParser = require('body-parser');
 var logger = require('morgan');
 var setup = require('./app/config/setup');
 var sequelize = require('./app/config/sequelize');
-var storyRouter = require('./app/routes/caseletRouter');
+var caseletRouter = require('./app/routes/caseletRouter');
 var filterRouter = require('./app/routes/filterRouter');
 var tagRouter = require('./app/routes/tagRouter');
 var adminRouter = require('./app/routes/adminRouter');
@@ -36,7 +36,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/user', userRouter);
-app.use('/caselet', storyRouter);
+app.use('/caselet', caseletRouter);
 app.use('/filter', filterRouter);
 app.use('/tags', tagRouter);
 app.use('/admin', adminRouter);

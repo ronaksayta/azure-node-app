@@ -11,7 +11,7 @@ adminRouter.route('/')
     .post(azureAuthentication, adminAuthorization, adminController.addProject);
 
 adminRouter.route('/:projectId')
-    .get(azureAuthentication, adminAuthorization, adminController.getSumbittedStoryById)
+    .get(azureAuthentication, adminAuthorization, adminController.getSumbittedCaseletById)
     .put(azureAuthentication, adminAuthorization, adminController.sendFeedback);
 
 module.exports = adminRouter;

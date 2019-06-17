@@ -7,7 +7,7 @@ var customerDao = {
 }
 
 function addCustomer(customer) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
 
         Customer.findOrCreate({ where: { name: customer.name }, defaults: { name: customer.name, details: customer.details } })
             .spread((customer, created) => {

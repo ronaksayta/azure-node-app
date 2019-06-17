@@ -9,7 +9,7 @@ var accountDao = {
 }
 
 function getAccounts() {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         Account.findAll()
             .then((accounts, error) => {
                 if (!error) {
@@ -25,7 +25,7 @@ function getAccounts() {
 }
 
 function addAccount(account) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         Account.findOrCreate({ where: { name: account } })
             .then((account, created) => {
                 resolve(account);
@@ -37,7 +37,7 @@ function addAccount(account) {
 }
 
 function getAccountByName(account) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         Account.findOne({ where: { name: account } })
             .then((account, error) => {
                 if (!error) {

@@ -9,7 +9,7 @@ var subVerticalDao = {
 }
 
 function getSubVerticals() {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         SubVertical.findAll()
             .then((subVerticals, err) => {
                 if (!err) {
@@ -28,7 +28,7 @@ function getSubVerticals() {
 }
 
 function addSubVertical(subVertical) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         SubVertical.findOrCreate({ where: { name: subVertical } })
             .spread((subVertical, created) => {
                 resolve(subVertical);
@@ -41,7 +41,7 @@ function addSubVertical(subVertical) {
 }
 
 function getSubVerticalByName(subVertical) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         SubVertical.findOne({ where: { name: subVertical } })
             .then((subVertical, err) => {
                 if (!err) {
